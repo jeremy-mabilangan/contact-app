@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.jeremymabilangan.ui.contact.ui.history.dataclass.History
-import com.jeremymabilangan.ui.contact.ui.main.dataclass.Contact
 import com.jeremymabilangan.ui.contact.util.PreferenceManager
 import kotlin.collections.ArrayList
 
@@ -46,8 +45,8 @@ abstract class BaseActivity : AppCompatActivity(), ConstructView {
         return Gson().fromJson(string, typeToken)
     }
 
-    inline fun <reified T> convertStringToObject(contactString: String): T {
-        return Gson().fromJson(contactString, T::class.java)
+    inline fun <reified T> convertStringToObject(string: String): T {
+        return Gson().fromJson(string, T::class.java)
     }
 
     fun convertJSONToString(json: Any?): String {

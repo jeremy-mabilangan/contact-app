@@ -205,11 +205,13 @@ class ContactActivity : BaseActivity() {
                         updateContact(it)
                     }
                 }
+
                 requestCodeEditContact -> {
                     data?.let {
                         editContact(it)
                     }
                 }
+
                 requestCodeHistory -> {
                     validateHistory()
                 }
