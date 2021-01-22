@@ -8,7 +8,8 @@ import com.jeremymabilangan.ui.contact.R
 import com.jeremymabilangan.ui.contact.base.BaseActivity
 import com.jeremymabilangan.ui.contact.ui.history.adapter.HistoryAdapter
 import com.jeremymabilangan.ui.contact.ui.history.dataclass.History
-import com.jeremymabilangan.ui.contact.util.PreferenceManager
+import com.jeremymabilangan.ui.contact.utils.Converter
+import com.jeremymabilangan.ui.contact.utils.PreferenceManager
 import kotlinx.android.synthetic.main.activity_history.*
 
 class HistoryActivity : BaseActivity() {
@@ -16,6 +17,8 @@ class HistoryActivity : BaseActivity() {
     private var historyArray = ArrayList<History>()
     private val historyToRestore = ArrayList<History>()
     private val historyToDelete = ArrayList<History>()
+
+    private val converter = Converter()
 
     private lateinit var preferenceManager : PreferenceManager
 
@@ -40,7 +43,7 @@ class HistoryActivity : BaseActivity() {
         val history: String ? = intent.getStringExtra("history")
 
         history?.apply {
-            val newHistoryArray = convertStringToJSON(this) as ArrayList<History>
+            val newHistoryArray = converter.stringToJSON(this) as ArrayList<History>
             historyArray = newHistoryArray
         }
     }
