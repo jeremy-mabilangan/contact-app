@@ -10,6 +10,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.jeremymabilangan.ui.contact.ui.history.dataclass.History
 import com.jeremymabilangan.ui.contact.ui.main.dataclass.Contact
+import com.jeremymabilangan.ui.contact.util.PreferenceManager
 import kotlin.collections.ArrayList
 
 abstract class BaseActivity : AppCompatActivity(), ConstructView {
@@ -39,24 +40,29 @@ abstract class BaseActivity : AppCompatActivity(), ConstructView {
         }
     }
 
-    fun convertContactStringToJSON(string: String) : ArrayList<Contact> {
-        val arrayContactType = object : TypeToken<ArrayList<Contact>>() {}.type
+    inline fun <reified T> convertStringToJSON(string: String): T {
+        val typeToken = object : TypeToken<T>() {}.type
 
-        return Gson().fromJson(string, arrayContactType)
+        return Gson().fromJson(string, typeToken)
     }
 
-    fun convertHistoryStringToJSON(string: String) : ArrayList<History> {
-        val arrayContactType = object : TypeToken<ArrayList<History>>() {}.type
-
-        return Gson().fromJson(string, arrayContactType)
+    inline fun <reified T> convertStringToObject(contactString: String): T {
+        return Gson().fromJson(contactString, T::class.java)
     }
 
     fun convertJSONToString(json: Any?): String {
         return Gson().toJson(json)
     }
 
-    fun convertStringToObject(contactString: String): Contact {
+    fun saveDeleteHistoryToPreferenceManager(preferenceManager: PreferenceManager, historyToDelete: ArrayList<History>) {
+        val toString = convertJSONToString(historyToDelete)
 
-        return Gson().fromJson(contactString, Contact::class.java)
+        preferenceManager.saveString(key = "delete_history", string = toString)
+    }
+
+    fun saveRestoreHistoryToPreferenceManager(preferenceManager: PreferenceManager, historyToRestore: ArrayList<History>) {
+        val toString = convertJSONToString(historyToRestore)
+
+        preferenceManager.saveString(key = "restore_history", string = toString)
     }
 }

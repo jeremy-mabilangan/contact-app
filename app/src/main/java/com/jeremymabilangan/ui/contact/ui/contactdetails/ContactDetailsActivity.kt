@@ -46,7 +46,7 @@ class ContactDetailsActivity : BaseActivity() {
         val contact: String ? = intent.getStringExtra("contact")
 
         contact?.let {
-            val contactFromObject = convertStringToObject(it)
+            val contactFromObject = convertStringToObject(it) as Contact
             populateDetails(contactFromObject)
         }
     }
