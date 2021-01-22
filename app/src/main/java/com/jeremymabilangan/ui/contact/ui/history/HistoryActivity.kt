@@ -1,8 +1,6 @@
 package com.jeremymabilangan.ui.contact.ui.history
 
-import android.annotation.SuppressLint
 import android.app.Activity
-import android.widget.Toast
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator

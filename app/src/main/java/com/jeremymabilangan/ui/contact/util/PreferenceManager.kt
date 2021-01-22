@@ -16,13 +16,6 @@ class PreferenceManager constructor(context: Context) {
         pref = context.getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE)
     }
 
-    fun clearAll() {
-        pref.edit().apply {
-            clear()
-            apply()
-        }
-    }
-
     fun saveString(string: String, key: String) {
         pref.edit().apply {
             putString(key, string)
@@ -34,9 +27,9 @@ class PreferenceManager constructor(context: Context) {
         return pref.getString(key, emptyString())!!
     }
 
-    fun saveBoolean(value: Boolean, key: String) {
+    fun clearAll() {
         pref.edit().apply {
-            putBoolean(key, value)
+            clear()
             apply()
         }
     }
