@@ -4,11 +4,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.TextView
 
-/**
- * Created by Ralph Gabrielle Orden on 12/18/20.
- */
-
-
 fun TextView.afterTextChanged(onAfterTextChange: (String) -> Unit) {
 
     this.addTextChangedListener(object : TextWatcher {

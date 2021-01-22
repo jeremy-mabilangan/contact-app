@@ -7,9 +7,12 @@ import com.jeremymabilangan.ui.contact.R
 import com.jeremymabilangan.ui.contact.base.BaseActivity
 import com.jeremymabilangan.ui.contact.extra.emptyString
 import com.jeremymabilangan.ui.contact.ui.main.dataclass.Contact
+import com.jeremymabilangan.ui.contact.utils.Converter
 import kotlinx.android.synthetic.main.activity_contact_details.*
 
 class ContactDetailsActivity : BaseActivity() {
+
+    private val converter = Converter()
 
     private var mobileNumber: String = emptyString()
 
@@ -46,7 +49,7 @@ class ContactDetailsActivity : BaseActivity() {
         val contact: String ? = intent.getStringExtra("contact")
 
         contact?.let {
-            val contactFromObject = convertStringToObject(it) as Contact
+            val contactFromObject = converter.stringToObject(it) as Contact
             populateDetails(contactFromObject)
         }
     }

@@ -1,4 +1,4 @@
-package com.jeremymabilangan.ui.contact.util
+package com.jeremymabilangan.ui.contact.utils
 
 import android.content.Context
 import android.content.SharedPreferences

@@ -7,9 +7,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.jeremymabilangan.ui.contact.ui.history.dataclass.History
-import com.jeremymabilangan.ui.contact.util.PreferenceManager
+import com.jeremymabilangan.ui.contact.utils.PreferenceManager
 import kotlin.collections.ArrayList
 
 abstract class BaseActivity : AppCompatActivity(), ConstructView {
@@ -39,20 +38,6 @@ abstract class BaseActivity : AppCompatActivity(), ConstructView {
         }
     }
 
-    inline fun <reified T> convertStringToJSON(string: String): T {
-        val typeToken = object : TypeToken<T>() {}.type
-
-        return Gson().fromJson(string, typeToken)
-    }
-
-    inline fun <reified T> convertStringToObject(string: String): T {
-        return Gson().fromJson(string, T::class.java)
-    }
-
-    fun convertJSONToString(json: Any?): String {
-        return Gson().toJson(json)
-    }
-
     fun saveDeleteHistoryToPreferenceManager(preferenceManager: PreferenceManager, historyToDelete: ArrayList<History>) {
         val toString = convertJSONToString(historyToDelete)
 
@@ -63,5 +48,9 @@ abstract class BaseActivity : AppCompatActivity(), ConstructView {
         val toString = convertJSONToString(historyToRestore)
 
         preferenceManager.saveString(key = "restore_history", string = toString)
+    }
+
+    private fun convertJSONToString(json: Any?): String {
+        return Gson().toJson(json)
     }
 }

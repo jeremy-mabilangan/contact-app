@@ -12,7 +12,8 @@ import com.jeremymabilangan.ui.contact.extra.emptyString
 import com.jeremymabilangan.ui.contact.extra.readText
 import com.jeremymabilangan.ui.contact.ui.main.ContactActivity
 import com.jeremymabilangan.ui.contact.ui.main.dataclass.Contact
-import com.jeremymabilangan.ui.contact.util.PreferenceManager
+import com.jeremymabilangan.ui.contact.utils.Converter
+import com.jeremymabilangan.ui.contact.utils.PreferenceManager
 import kotlinx.android.synthetic.main.activity_add_contact.*
 import org.jetbrains.anko.intentFor
 
@@ -21,6 +22,8 @@ class AddContactActivity : BaseActivity() {
 
     private var nameToEdit: String = emptyString()
     private var mobileNumberToEdit: String = emptyString()
+
+    private val converter = Converter()
 
     private lateinit var preferenceManager : PreferenceManager
 
@@ -111,7 +114,7 @@ class AddContactActivity : BaseActivity() {
             }
 
             if (rawJSONString.isNotEmpty()) {
-                val contactFromPreferenceManager = convertStringToJSON(rawJSONString) as ArrayList<Contact>
+                val contactFromPreferenceManager = converter.stringToJSON(rawJSONString) as ArrayList<Contact>
 
                 for (contact in contactFromPreferenceManager) {
                     if (contact.contactName == name) {
@@ -145,7 +148,7 @@ class AddContactActivity : BaseActivity() {
             }
 
             if (rawJSONString.isNotEmpty()) {
-                val contactFromPreferenceManager = convertStringToJSON(rawJSONString) as ArrayList<Contact>
+                val contactFromPreferenceManager = converter.stringToJSON(rawJSONString) as ArrayList<Contact>
 
                 for (contact in contactFromPreferenceManager) {
                     if (contact.contactMobileNumber == mobileNumber) {
