@@ -10,6 +10,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.jeremymabilangan.ui.contact.ui.history.dataclass.History
 import com.jeremymabilangan.ui.contact.ui.main.dataclass.Contact
+import com.jeremymabilangan.ui.contact.util.PreferenceManager
 import kotlin.collections.ArrayList
 
 abstract class BaseActivity : AppCompatActivity(), ConstructView {
@@ -56,7 +57,18 @@ abstract class BaseActivity : AppCompatActivity(), ConstructView {
     }
 
     fun convertStringToObject(contactString: String): Contact {
-
         return Gson().fromJson(contactString, Contact::class.java)
+    }
+
+    fun saveDeleteHistoryToPreferenceManager(preferenceManager: PreferenceManager, historyToDelete: ArrayList<History>) {
+        val toString = convertJSONToString(historyToDelete)
+
+        preferenceManager.saveString(key = "delete_history", string = toString)
+    }
+
+    fun saveRestoreHistoryToPreferenceManager(preferenceManager: PreferenceManager, historyToRestore: ArrayList<History>) {
+        val toString = convertJSONToString(historyToRestore)
+
+        preferenceManager.saveString(key = "restore_history", string = toString)
     }
 }

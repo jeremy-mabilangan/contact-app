@@ -81,7 +81,7 @@ class ContactActivity : BaseActivity() {
             saveHistoryToPreferenceManager(historyArray)
 
             toDeleteHistory.clear()
-            saveDeleteHistoryToPreferenceManager(toDeleteHistory)
+            saveDeleteHistoryToPreferenceManager(preferenceManager =  preferenceManager, historyToDelete =  toDeleteHistory)
         }
     }
 
@@ -104,7 +104,7 @@ class ContactActivity : BaseActivity() {
             saveHistoryToPreferenceManager(historyArray)
 
             toRestoreHistory.clear()
-            saveRestoreHistoryToPreferenceManager(toRestoreHistory)
+            saveRestoreHistoryToPreferenceManager(preferenceManager = preferenceManager, historyToRestore =  toRestoreHistory)
         }
     }
 
@@ -358,17 +358,5 @@ class ContactActivity : BaseActivity() {
         val toString = convertJSONToString(historyArray)
 
         preferenceManager.saveString(key = "history", string = toString)
-    }
-
-    private fun saveDeleteHistoryToPreferenceManager(historyToDelete: ArrayList<History>) {
-        val toString = convertJSONToString(historyToDelete)
-
-        preferenceManager.saveString(key = "delete_history", string = toString)
-    }
-
-    private fun saveRestoreHistoryToPreferenceManager(historyToRestore: ArrayList<History>) {
-        val toString = convertJSONToString(historyToRestore)
-
-        preferenceManager.saveString(key = "restore_history", string = toString)
     }
 }

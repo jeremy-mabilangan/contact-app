@@ -1,9 +1,11 @@
 package com.jeremymabilangan.ui.contact.ui.history.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.jeremymabilangan.ui.contact.R
 import com.jeremymabilangan.ui.contact.ui.history.dataclass.History

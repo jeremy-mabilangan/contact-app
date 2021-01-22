@@ -1,6 +1,8 @@
 package com.jeremymabilangan.ui.contact.ui.history
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.widget.Toast
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -85,7 +87,7 @@ class HistoryActivity : BaseActivity() {
         historyArray.removeAt(index)
         rvHistory?.adapter?.notifyDataSetChanged()
 
-        saveDeleteHistoryToPreferenceManager(historyToDelete)
+        saveDeleteHistoryToPreferenceManager(preferenceManager = preferenceManager, historyToDelete =  historyToDelete)
     }
 
     private fun restoreHistory(index: Int) {
@@ -94,18 +96,6 @@ class HistoryActivity : BaseActivity() {
         historyArray.removeAt(index)
         rvHistory?.adapter?.notifyDataSetChanged()
 
-        saveRestoreHistoryToPreferenceManager(historyToRestore)
-    }
-
-    private fun saveDeleteHistoryToPreferenceManager(historyToDelete: ArrayList<History>) {
-        val toString = convertJSONToString(historyToDelete)
-
-        preferenceManager.saveString(key = "delete_history", string = toString)
-    }
-
-    private fun saveRestoreHistoryToPreferenceManager(restoreHistory: ArrayList<History>) {
-        val toString = convertJSONToString(restoreHistory)
-
-        preferenceManager.saveString(key = "restore_history", string = toString)
+        saveRestoreHistoryToPreferenceManager(preferenceManager = preferenceManager, historyToRestore = historyToRestore)
     }
 }
