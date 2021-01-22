@@ -70,7 +70,7 @@ class ContactActivity : BaseActivity() {
         val rawJSONString = preferenceManager.loadString("delete_history")
 
         if (rawJSONString.isNotEmpty()) {
-            val toDeleteHistory = convertHistoryStringToJSON(rawJSONString)
+            val toDeleteHistory = convertStringToJSON(rawJSONString) as ArrayList<History>
 
             for (history in toDeleteHistory) {
                 historyArray.removeAll {
@@ -89,7 +89,7 @@ class ContactActivity : BaseActivity() {
         val rawJSONString = preferenceManager.loadString("restore_history")
 
         if (rawJSONString.isNotEmpty()) {
-            val toRestoreHistory = convertHistoryStringToJSON(rawJSONString)
+            val toRestoreHistory = convertStringToJSON(rawJSONString) as ArrayList<History>
 
             for (history in toRestoreHistory) {
                 historyArray.removeAll {
@@ -221,7 +221,7 @@ class ContactActivity : BaseActivity() {
         val rawJSONString = preferenceManager.loadString("contact")
 
         if (rawJSONString.isNotEmpty()) {
-            val contactFromPreferenceManager = convertContactStringToJSON(rawJSONString)
+            val contactFromPreferenceManager = convertStringToJSON(rawJSONString) as ArrayList<Contact>
 
             for (contact in contactFromPreferenceManager) {
                 contactArray.add(contact)
@@ -233,7 +233,7 @@ class ContactActivity : BaseActivity() {
         val rawJSONString = preferenceManager.loadString("history")
 
         if (rawJSONString.isNotEmpty()) {
-            val historyFromPreferenceManager = convertHistoryStringToJSON(rawJSONString)
+            val historyFromPreferenceManager = convertStringToJSON(rawJSONString) as ArrayList<History>
             historyArray = historyFromPreferenceManager
         }
     }

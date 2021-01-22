@@ -42,7 +42,7 @@ class HistoryActivity : BaseActivity() {
         val history: String ? = intent.getStringExtra("history")
 
         history?.apply {
-            val newHistoryArray = convertHistoryStringToJSON(this)
+            val newHistoryArray = convertStringToJSON(this) as ArrayList<History>
             historyArray = newHistoryArray
         }
     }

@@ -40,24 +40,18 @@ abstract class BaseActivity : AppCompatActivity(), ConstructView {
         }
     }
 
-    fun convertContactStringToJSON(string: String) : ArrayList<Contact> {
-        val arrayContactType = object : TypeToken<ArrayList<Contact>>() {}.type
+    inline fun <reified T> convertStringToJSON(string: String): T {
+        val typeToken = object : TypeToken<T>() {}.type
 
-        return Gson().fromJson(string, arrayContactType)
+        return Gson().fromJson(string, typeToken)
     }
 
-    fun convertHistoryStringToJSON(string: String) : ArrayList<History> {
-        val arrayContactType = object : TypeToken<ArrayList<History>>() {}.type
-
-        return Gson().fromJson(string, arrayContactType)
+    inline fun <reified T> convertStringToObject(contactString: String): T {
+        return Gson().fromJson(contactString, T::class.java)
     }
 
     fun convertJSONToString(json: Any?): String {
         return Gson().toJson(json)
-    }
-
-    fun convertStringToObject(contactString: String): Contact {
-        return Gson().fromJson(contactString, Contact::class.java)
     }
 
     fun saveDeleteHistoryToPreferenceManager(preferenceManager: PreferenceManager, historyToDelete: ArrayList<History>) {
