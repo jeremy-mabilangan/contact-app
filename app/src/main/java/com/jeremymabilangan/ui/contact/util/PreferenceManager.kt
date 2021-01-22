@@ -3,16 +3,11 @@ package com.jeremymabilangan.ui.contact.util
 import android.content.Context
 import android.content.SharedPreferences
 import com.jeremymabilangan.ui.contact.extra.emptyString
-
-
-/*
- * Created by Ralph Gabrielle Orden on 8/2/20.
- */
  
 class PreferenceManager constructor(context: Context) {
 
     companion object {
-        const val SHARED_PREFERENCE_NAME = "com.ralph.gabb.projectpos.SHARED_PREFERENCE_NAME"
+        const val SHARED_PREFERENCE_NAME = "com.jeremymabilangan.ui.contact.SHARED_PREFERENCE_NAME"
     }
 
     private var pref: SharedPreferences
