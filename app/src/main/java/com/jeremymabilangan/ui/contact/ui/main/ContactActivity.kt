@@ -17,6 +17,7 @@ import com.jeremymabilangan.ui.contact.ui.main.adapter.ContactAdapter
 import com.jeremymabilangan.ui.contact.ui.main.dataclass.Contact
 import com.jeremymabilangan.ui.contact.utils.GSONConverter
 import com.jeremymabilangan.ui.contact.utils.PreferenceManager
+import com.jeremymabilangan.ui.contact.utils.SaveToPreference
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.intentFor
 
@@ -33,6 +34,9 @@ class ContactActivity : BaseActivity() {
     private var historyArray = ArrayList<History>()
 
     private val gsonConverter = GSONConverter()
+    private val saveToPreference = SaveToPreference()
+
+    private lateinit var preferenceManager : PreferenceManager
 
     /**
      * Edit
@@ -42,9 +46,6 @@ class ContactActivity : BaseActivity() {
      *
      * naming convention
      */
-
-    private lateinit var preferenceManager : PreferenceManager
-
     override fun layoutId(): Int {
         return R.layout.activity_main
     }
@@ -53,6 +54,10 @@ class ContactActivity : BaseActivity() {
         initRecyclerView()
         listenToEvents()
         initPreferenceManager()
+    }
+
+    init {
+
     }
 
     private fun listenToEvents() {
@@ -84,7 +89,7 @@ class ContactActivity : BaseActivity() {
             saveHistoryToPreferenceManager(historyArray)
 
             toDeleteHistory.clear()
-            saveDeleteHistoryToPreferenceManager(preferenceManager =  preferenceManager, historyToDelete =  toDeleteHistory)
+            saveToPreference.deleteHistory(preferenceManager =  preferenceManager, gsonConverter = gsonConverter, historyToDelete =  toDeleteHistory)
         }
     }
 
@@ -107,7 +112,7 @@ class ContactActivity : BaseActivity() {
             saveHistoryToPreferenceManager(historyArray)
 
             toRestoreHistory.clear()
-            saveRestoreHistoryToPreferenceManager(preferenceManager = preferenceManager, historyToRestore =  toRestoreHistory)
+            saveToPreference.restoreHistory(preferenceManager = preferenceManager, gsonConverter = gsonConverter, historyToRestore =  toRestoreHistory)
         }
     }
 
