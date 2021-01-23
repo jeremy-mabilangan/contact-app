@@ -8,8 +8,9 @@ import com.jeremymabilangan.ui.contact.R
 import com.jeremymabilangan.ui.contact.base.BaseActivity
 import com.jeremymabilangan.ui.contact.ui.history.adapter.HistoryAdapter
 import com.jeremymabilangan.ui.contact.ui.history.dataclass.History
-import com.jeremymabilangan.ui.contact.utils.Converter
+import com.jeremymabilangan.ui.contact.utils.GSONConverter
 import com.jeremymabilangan.ui.contact.utils.PreferenceManager
+import com.jeremymabilangan.ui.contact.utils.SaveToPreference
 import kotlinx.android.synthetic.main.activity_history.*
 
 class HistoryActivity : BaseActivity() {
@@ -18,7 +19,8 @@ class HistoryActivity : BaseActivity() {
     private val historyToRestore = ArrayList<History>()
     private val historyToDelete = ArrayList<History>()
 
-    private val converter = Converter()
+    private val gsonConverter = GSONConverter()
+    private val saveToPreference = SaveToPreference()
 
     private lateinit var preferenceManager : PreferenceManager
 
@@ -43,7 +45,7 @@ class HistoryActivity : BaseActivity() {
         val history: String ? = intent.getStringExtra("history")
 
         history?.apply {
-            val newHistoryArray = converter.stringToJSON(this) as ArrayList<History>
+            val newHistoryArray = gsonConverter.stringToJSON(this) as ArrayList<History>
             historyArray = newHistoryArray
         }
     }
@@ -88,7 +90,7 @@ class HistoryActivity : BaseActivity() {
         historyArray.removeAt(index)
         rvHistory?.adapter?.notifyDataSetChanged()
 
-        saveDeleteHistoryToPreferenceManager(preferenceManager = preferenceManager, historyToDelete =  historyToDelete)
+        saveToPreference.deleteHistory(preferenceManager = preferenceManager, gsonConverter = gsonConverter, historyToDelete =  historyToDelete)
     }
 
     private fun restoreHistory(index: Int) {
@@ -97,6 +99,6 @@ class HistoryActivity : BaseActivity() {
         historyArray.removeAt(index)
         rvHistory?.adapter?.notifyDataSetChanged()
 
-        saveRestoreHistoryToPreferenceManager(preferenceManager = preferenceManager, historyToRestore = historyToRestore)
+        saveToPreference.restoreHistory(preferenceManager = preferenceManager, gsonConverter = gsonConverter, historyToRestore = historyToRestore)
     }
 }

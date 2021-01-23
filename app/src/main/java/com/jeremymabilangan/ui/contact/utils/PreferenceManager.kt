@@ -16,7 +16,7 @@ class PreferenceManager constructor(context: Context) {
         pref = context.getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE)
     }
 
-    fun saveString(string: String, key: String) {
+    open fun saveString(string: String, key: String) {
         pref.edit().apply {
             putString(key, string)
             apply()

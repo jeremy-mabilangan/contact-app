@@ -10,9 +10,10 @@ import com.jeremymabilangan.ui.contact.base.BaseActivity
 import com.jeremymabilangan.ui.contact.extra.afterTextChanged
 import com.jeremymabilangan.ui.contact.extra.emptyString
 import com.jeremymabilangan.ui.contact.extra.readText
+import com.jeremymabilangan.ui.contact.ui.history.dataclass.History
 import com.jeremymabilangan.ui.contact.ui.main.ContactActivity
 import com.jeremymabilangan.ui.contact.ui.main.dataclass.Contact
-import com.jeremymabilangan.ui.contact.utils.Converter
+import com.jeremymabilangan.ui.contact.utils.GSONConverter
 import com.jeremymabilangan.ui.contact.utils.PreferenceManager
 import kotlinx.android.synthetic.main.activity_add_contact.*
 import org.jetbrains.anko.intentFor
@@ -23,7 +24,7 @@ class AddContactActivity : BaseActivity() {
     private var nameToEdit: String = emptyString()
     private var mobileNumberToEdit: String = emptyString()
 
-    private val converter = Converter()
+    private val gsonConverter = GSONConverter()
 
     private lateinit var preferenceManager : PreferenceManager
 
@@ -100,26 +101,34 @@ class AddContactActivity : BaseActivity() {
     private fun validateName(name: String): String? {
         var result: String? = null
 
-        val rawJSONString = preferenceManager.loadString("contact")
+        val rawContactString = preferenceManager.loadString("contact")
+        val rawHistoryString = preferenceManager.loadString("history")
 
         if (name.isEmpty()) {
             result = "Name should not be empty"
         } else {
             if (nameToEdit.isNotEmpty()) {
                 if (nameToEdit == name) {
-                    result = "No changes"
-
-                    return result
+                    return "No changes"
                 }
             }
 
-            if (rawJSONString.isNotEmpty()) {
-                val contactFromPreferenceManager = converter.stringToJSON(rawJSONString) as ArrayList<Contact>
+            if (rawContactString.isNotEmpty()) {
+                val contactFromPreferenceManager = gsonConverter.stringToJSON(rawContactString) as ArrayList<Contact>
 
                 for (contact in contactFromPreferenceManager) {
                     if (contact.contactName == name) {
-                        result = "Name already exist"
-                        break
+                        return "Name already exist"
+                    }
+                }
+            }
+
+            if(rawHistoryString.isNotEmpty()) {
+                val historyFormPreferenceManager = gsonConverter.stringToJSON(rawHistoryString) as ArrayList<History>
+
+                for (history in historyFormPreferenceManager) {
+                    if (history.historyName == name) {
+                        return "Name already exist in history"
                     }
                 }
             }
@@ -131,29 +140,36 @@ class AddContactActivity : BaseActivity() {
     private fun validateNumber(mobileNumber: String): String? {
         var result: String? = null
 
-        val rawJSONString = preferenceManager.loadString("contact")
+        val rawContactString = preferenceManager.loadString("contact")
+        val rawHistoryString = preferenceManager.loadString("history")
 
         if (mobileNumber.isEmpty()) {
             result = "Mobile number should not be empty"
         } else if (mobileNumber.length != 11 || mobileNumber.substring(0, 2) != "09" || !TextUtils.isDigitsOnly(mobileNumber)) {
-            Log.d("AddContactActivity", "Invalid mobile number")
             result = "Invalid mobile number"
         } else {
             if (mobileNumberToEdit.isNotEmpty()) {
                 if (mobileNumberToEdit == mobileNumber) {
-                    result = "No changes"
-
-                    return result
+                    return "No changes"
                 }
             }
 
-            if (rawJSONString.isNotEmpty()) {
-                val contactFromPreferenceManager = converter.stringToJSON(rawJSONString) as ArrayList<Contact>
+            if (rawContactString.isNotEmpty()) {
+                val contactFromPreferenceManager = gsonConverter.stringToJSON(rawContactString) as ArrayList<Contact>
 
                 for (contact in contactFromPreferenceManager) {
                     if (contact.contactMobileNumber == mobileNumber) {
-                        result = "Mobile number already exist"
-                        break
+                        return "Mobile number already exist"
+                    }
+                }
+            }
+
+            if(rawHistoryString.isNotEmpty()) {
+                val historyFormPreferenceManager = gsonConverter.stringToJSON(rawHistoryString) as ArrayList<History>
+
+                for (history in historyFormPreferenceManager) {
+                    if (history.historyMobileNumber == mobileNumber) {
+                        return "Mobile number already exist in history"
                     }
                 }
             }

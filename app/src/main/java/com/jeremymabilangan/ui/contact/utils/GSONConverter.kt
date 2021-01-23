@@ -3,7 +3,7 @@ package com.jeremymabilangan.ui.contact.utils
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-class Converter {
+class GSONConverter {
     inline fun <reified T> stringToJSON(string: String): T {
         return Gson().fromJson(string,  object : TypeToken<T>() {}.type)
     }
