@@ -15,7 +15,7 @@ import com.jeremymabilangan.ui.contact.ui.history.HistoryActivity
 import com.jeremymabilangan.ui.contact.ui.history.dataclass.History
 import com.jeremymabilangan.ui.contact.ui.main.adapter.ContactAdapter
 import com.jeremymabilangan.ui.contact.ui.main.dataclass.Contact
-import com.jeremymabilangan.ui.contact.utils.Converter
+import com.jeremymabilangan.ui.contact.utils.GSONConverter
 import com.jeremymabilangan.ui.contact.utils.PreferenceManager
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.intentFor
@@ -32,7 +32,7 @@ class ContactActivity : BaseActivity() {
     private var contactArray = ArrayList<Contact>()
     private var historyArray = ArrayList<History>()
 
-    private val converter = Converter()
+    private val gsonConverter = GSONConverter()
 
     /**
      * Edit
@@ -73,7 +73,7 @@ class ContactActivity : BaseActivity() {
         val rawJSONString = preferenceManager.loadString("delete_history")
 
         if (rawJSONString.isNotEmpty()) {
-            val toDeleteHistory = converter.stringToJSON(rawJSONString) as ArrayList<History>
+            val toDeleteHistory = gsonConverter.stringToJSON(rawJSONString) as ArrayList<History>
 
             for (history in toDeleteHistory) {
                 historyArray.removeAll {
@@ -92,7 +92,7 @@ class ContactActivity : BaseActivity() {
         val rawJSONString = preferenceManager.loadString("restore_history")
 
         if (rawJSONString.isNotEmpty()) {
-            val toRestoreHistory = converter.stringToJSON(rawJSONString) as ArrayList<History>
+            val toRestoreHistory = gsonConverter.stringToJSON(rawJSONString) as ArrayList<History>
 
             for (history in toRestoreHistory) {
                 historyArray.removeAll {
@@ -162,7 +162,7 @@ class ContactActivity : BaseActivity() {
     }
 
     private fun showContactHistory() {
-        val toString = converter.jsonToString(historyArray)
+        val toString = gsonConverter.jsonToString(historyArray)
 
         startActivityForResult(
             intentFor<HistoryActivity>("history" to toString),
@@ -190,7 +190,7 @@ class ContactActivity : BaseActivity() {
     }
 
     private fun viewContactDetails(contact: Contact) {
-        val rawJSONString = converter.jsonToString(contact)
+        val rawJSONString = gsonConverter.jsonToString(contact)
 
         startActivityForResult(
             intentFor<ContactDetailsActivity>("contact" to rawJSONString),
@@ -226,7 +226,7 @@ class ContactActivity : BaseActivity() {
         val rawJSONString = preferenceManager.loadString("contact")
 
         if (rawJSONString.isNotEmpty()) {
-            val contactFromPreferenceManager = converter.stringToJSON(rawJSONString) as ArrayList<Contact>
+            val contactFromPreferenceManager = gsonConverter.stringToJSON(rawJSONString) as ArrayList<Contact>
 
             for (contact in contactFromPreferenceManager) {
                 contactArray.add(contact)
@@ -238,7 +238,7 @@ class ContactActivity : BaseActivity() {
         val rawJSONString = preferenceManager.loadString("history")
 
         if (rawJSONString.isNotEmpty()) {
-            val historyFromPreferenceManager = converter.stringToJSON(rawJSONString) as ArrayList<History>
+            val historyFromPreferenceManager = gsonConverter.stringToJSON(rawJSONString) as ArrayList<History>
             historyArray = historyFromPreferenceManager
         }
     }
@@ -351,7 +351,7 @@ class ContactActivity : BaseActivity() {
             it.contactName
         }
 
-        val toString = converter.jsonToString(contactArray)
+        val toString = gsonConverter.jsonToString(contactArray)
 
         preferenceManager.saveString(key = "contact", string = toString)
     }
@@ -361,7 +361,7 @@ class ContactActivity : BaseActivity() {
             it.historyName
         }
 
-        val toString = converter.jsonToString(historyArray)
+        val toString = gsonConverter.jsonToString(historyArray)
 
         preferenceManager.saveString(key = "history", string = toString)
     }
