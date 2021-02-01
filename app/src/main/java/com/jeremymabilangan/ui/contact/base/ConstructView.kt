@@ -5,4 +5,5 @@ interface ConstructView {
     fun layoutId(): Int
 
     fun viewCreated()
+
 }
