@@ -7,6 +7,7 @@ package com.jeremymabilangan.ui.contact.ui.lesson
 
 class LessonPresenterImpl(private var lessonView : LessonView) : LessonPresenter {
 
+    //
     // polymorphism
     // abstraction
     // inheritance
