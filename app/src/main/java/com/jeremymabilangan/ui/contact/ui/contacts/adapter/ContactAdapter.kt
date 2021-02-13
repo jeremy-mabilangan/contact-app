@@ -10,6 +10,7 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.afollestad.materialdialogs.MaterialDialog
 import com.jeremymabilangan.ui.contact.R
 import com.jeremymabilangan.ui.contact.ui.contacts.dataclass.Contact
 import kotlinx.android.synthetic.main.row_contact.view.*
@@ -50,8 +51,21 @@ class ContactAdapter(private var context: Context, private val contacts: List<Co
             onGoToEditContact(contact, position)
         }
 
+        // onOptionCreated(1, 2)
+
         holder.selectContact {
             Toast.makeText(context, "test", Toast.LENGTH_LONG).show()
+
+            createDialog(contact)
+        }
+    }
+
+    private fun createDialog(contact: Contact) {
+        MaterialDialog(context).show {
+            title(text = "Contact")
+            message(text = "What do you want to this contact : " + contact.contactName)
+            positiveButton(text = "Edit")
+            negativeButton(text = "Delete")
         }
     }
 
