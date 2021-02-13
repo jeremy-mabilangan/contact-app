@@ -1,4 +1,4 @@
-package com.jeremymabilangan.ui.contact.ui.main.adapter
+package com.jeremymabilangan.ui.contact.ui.contacts.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -8,10 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.jeremymabilangan.ui.contact.R
-import com.jeremymabilangan.ui.contact.ui.main.dataclass.Contact
-import kotlinx.android.synthetic.main.contact_list.view.*
+import com.jeremymabilangan.ui.contact.ui.contacts.dataclass.Contact
+import kotlinx.android.synthetic.main.row_contact.view.*
 import java.util.*
 
 @Suppress("NAME_SHADOWING")
@@ -24,7 +25,7 @@ class ContactAdapter(private var context: Context, private val contacts: List<Co
     private var contactFilterList = contacts
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
-        val itemView = LayoutInflater.from(context).inflate(R.layout.contact_list,
+        val itemView = LayoutInflater.from(context).inflate(R.layout.row_contact,
             parent, false)
 
         return ContactViewHolder(itemView)
@@ -47,6 +48,10 @@ class ContactAdapter(private var context: Context, private val contacts: List<Co
 
         holder.goToEditContact(contact, position) { contact: Contact, position: Int ->
             onGoToEditContact(contact, position)
+        }
+
+        holder.selectContact {
+            Toast.makeText(context, "test", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -75,6 +80,12 @@ class ContactAdapter(private var context: Context, private val contacts: List<Co
         fun goToEditContact(contact: Contact, position: Int, onGoToEditContact: (Contact, Int) -> Unit) {
             itemView.bEditContact.setOnClickListener {
                 onGoToEditContact(contact, position)
+            }
+        }
+
+        fun selectContact(onSelected: () -> Unit) {
+            itemView.containerContact.setOnClickListener {
+                onSelected()
             }
         }
     }
