@@ -46,4 +46,8 @@ class LessonPresenterImpl(private var lessonView : LessonView) : LessonPresenter
         // call display total
         lessonView.displayTotal(total)
     }
+
+    fun test() {
+
+    }
 }

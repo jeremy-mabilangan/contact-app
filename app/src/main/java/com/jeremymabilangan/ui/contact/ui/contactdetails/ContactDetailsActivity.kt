@@ -6,7 +6,7 @@ import android.provider.Telephony
 import com.jeremymabilangan.ui.contact.R
 import com.jeremymabilangan.ui.contact.base.BaseActivity
 import com.jeremymabilangan.ui.contact.extra.emptyString
-import com.jeremymabilangan.ui.contact.ui.main.dataclass.Contact
+import com.jeremymabilangan.ui.contact.ui.contacts.dataclass.Contact
 import com.jeremymabilangan.ui.contact.utils.GSONConverter
 import kotlinx.android.synthetic.main.activity_contact_details.*
 

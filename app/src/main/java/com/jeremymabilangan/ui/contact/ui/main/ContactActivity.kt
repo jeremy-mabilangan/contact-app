@@ -13,8 +13,8 @@ import com.jeremymabilangan.ui.contact.ui.addcontact.AddContactActivity
 import com.jeremymabilangan.ui.contact.ui.contactdetails.ContactDetailsActivity
 import com.jeremymabilangan.ui.contact.ui.history.HistoryActivity
 import com.jeremymabilangan.ui.contact.ui.history.dataclass.History
-import com.jeremymabilangan.ui.contact.ui.main.adapter.ContactAdapter
-import com.jeremymabilangan.ui.contact.ui.main.dataclass.Contact
+import com.jeremymabilangan.ui.contact.ui.contacts.adapter.ContactAdapter
+import com.jeremymabilangan.ui.contact.ui.contacts.dataclass.Contact
 import com.jeremymabilangan.ui.contact.utils.GSONConverter
 import com.jeremymabilangan.ui.contact.utils.PreferenceManager
 import com.jeremymabilangan.ui.contact.utils.SaveToPreference
@@ -54,10 +54,6 @@ class ContactActivity : BaseActivity() {
         initRecyclerView()
         listenToEvents()
         initPreferenceManager()
-    }
-
-    init {
-
     }
 
     private fun listenToEvents() {

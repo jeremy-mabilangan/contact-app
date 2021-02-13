@@ -1,6 +1,7 @@
 package com.jeremymabilangan.ui.contact.ui.addcontact
 
 import android.app.Activity
+import android.content.Intent
 import android.text.TextUtils
 import android.util.Log
 import android.view.KeyEvent
@@ -12,7 +13,8 @@ import com.jeremymabilangan.ui.contact.extra.emptyString
 import com.jeremymabilangan.ui.contact.extra.readText
 import com.jeremymabilangan.ui.contact.ui.history.dataclass.History
 import com.jeremymabilangan.ui.contact.ui.main.ContactActivity
-import com.jeremymabilangan.ui.contact.ui.main.dataclass.Contact
+import com.jeremymabilangan.ui.contact.ui.contacts.dataclass.Contact
+import com.jeremymabilangan.ui.contact.ui.main.MainActivity
 import com.jeremymabilangan.ui.contact.utils.GSONConverter
 import com.jeremymabilangan.ui.contact.utils.PreferenceManager
 import kotlinx.android.synthetic.main.activity_add_contact.*
@@ -200,9 +202,11 @@ class AddContactActivity : BaseActivity() {
     }
 
     private fun goToContacts(name: String, mobileNumber: String) {
-        setResult(Activity.RESULT_OK,
-            intentFor<ContactActivity>("name" to name, "mobilenumber" to mobileNumber)
-        )
+        val intent = Intent()
+        intent.putExtra("name", name)
+        intent.putExtra("mobilenumber", mobileNumber)
+
+        setResult(Activity.RESULT_OK, intent)
 
         finish()
     }

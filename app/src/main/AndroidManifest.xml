@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".ui.lesson.LessonActivity">
+        <activity android:name=".ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,6 +27,12 @@
         <activity
             android:name=".ui.contactdetails.ContactDetailsActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.history2.HistoryFragments"
+            tools:ignore="Instantiatable" />
+        <activity
+            android:name=".ui.contacts.ContactsFragment"
+            tools:ignore="Instantiatable" />
     </application>
 
 </manifest>
