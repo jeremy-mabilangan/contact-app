@@ -18,9 +18,7 @@ import java.util.*
 
 @Suppress("NAME_SHADOWING")
 class ContactAdapter(private var context: Context, private val contacts: List<Contact>,
-                     private val onSelectContact: (Contact) -> Unit,
-                     private val onDeleteContact: (Contact, Int) -> Unit,
-                     private val onGoToEditContact: (Contact, Int) -> Unit
+                     private var onOptionDialog : () -> Unit
 ): RecyclerView.Adapter<ContactAdapter.ContactViewHolder>(), Filterable {
 
     private var contactFilterList = contacts
@@ -50,8 +48,6 @@ class ContactAdapter(private var context: Context, private val contacts: List<Co
         holder.goToEditContact(contact, position) { contact: Contact, position: Int ->
             onGoToEditContact(contact, position)
         }
-
-        // onOptionCreated(1, 2)
 
         holder.selectContact {
             Toast.makeText(context, "test", Toast.LENGTH_LONG).show()

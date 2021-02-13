@@ -26,6 +26,13 @@ class MainActivity : BaseActivity() {
         openFragment(newInstance(ContactsFragment::class.java), "Contacts")
     }
 
+    // onOptionCreated(1, 2)
+    // Image (url)
+    // Option Dialog
+    // enum
+    // MVVM
+    // Retrofit (suspend)
+
     private fun listenToEvents() {
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
             when(item.itemId) {
