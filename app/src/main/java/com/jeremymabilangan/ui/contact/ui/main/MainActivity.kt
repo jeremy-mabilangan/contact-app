@@ -32,6 +32,12 @@ class MainActivity : BaseActivity() {
     // enum
     // MVVM
     // Retrofit (suspend)
+    // Gradle
+    // Variant
+    // Build config constant
+    // Build.gradle vs project/build.gradle
+    // Android Manifest
+    // Local properties
 
     private fun listenToEvents() {
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
