@@ -10,7 +10,6 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.afollestad.materialdialogs.MaterialDialog
 import com.jeremymabilangan.ui.contact.R
 import com.jeremymabilangan.ui.contact.ui.contacts.dataclass.Contact
 import kotlinx.android.synthetic.main.row_contact.view.*
@@ -18,7 +17,7 @@ import java.util.*
 
 @Suppress("NAME_SHADOWING")
 class ContactAdapter(private var context: Context, private val contacts: List<Contact>,
-                     private var onOptionDialog : () -> Unit
+                     private var onOptionDialog : (contact: Contact, position: Int) -> Unit
 ): RecyclerView.Adapter<ContactAdapter.ContactViewHolder>(), Filterable {
 
     private var contactFilterList = contacts
@@ -37,31 +36,8 @@ class ContactAdapter(private var context: Context, private val contacts: List<Co
 
         holder.displayInformation(contact)
 
-        holder.selectContact(contact) {
-            onSelectContact(it)
-        }
-
-        holder.deleteContact(contact, position) { contact: Contact, position: Int ->
-            onDeleteContact(contact, position)
-        }
-
-        holder.goToEditContact(contact, position) { contact: Contact, position: Int ->
-            onGoToEditContact(contact, position)
-        }
-
         holder.selectContact {
-            Toast.makeText(context, "test", Toast.LENGTH_LONG).show()
-
-            createDialog(contact)
-        }
-    }
-
-    private fun createDialog(contact: Contact) {
-        MaterialDialog(context).show {
-            title(text = "Contact")
-            message(text = "What do you want to this contact : " + contact.contactName)
-            positiveButton(text = "Edit")
-            negativeButton(text = "Delete")
+            onOptionDialog(contact, position)
         }
     }
 
@@ -73,24 +49,6 @@ class ContactAdapter(private var context: Context, private val contacts: List<Co
         fun displayInformation(contact: Contact) {
             itemView.tvContactName.text = contact.contactName
             itemView.tvContactMobileNumber.text = contact.contactMobileNumber
-        }
-
-        fun selectContact(contact: Contact, onSelectContact: (Contact) -> Unit) {
-            itemView.setOnClickListener {
-                onSelectContact(contact)
-            }
-        }
-
-        fun deleteContact(contact: Contact, position: Int, onDeleteContact: (Contact, Int) -> Unit) {
-            itemView.bDeleteContact.setOnClickListener {
-                onDeleteContact(contact, position)
-            }
-        }
-
-        fun goToEditContact(contact: Contact, position: Int, onGoToEditContact: (Contact, Int) -> Unit) {
-            itemView.bEditContact.setOnClickListener {
-                onGoToEditContact(contact, position)
-            }
         }
 
         fun selectContact(onSelected: () -> Unit) {

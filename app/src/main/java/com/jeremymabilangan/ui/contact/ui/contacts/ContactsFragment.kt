@@ -2,10 +2,12 @@ package com.jeremymabilangan.ui.contact.ui.contacts
 
 import android.app.Activity
 import android.content.Intent
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.afollestad.materialdialogs.MaterialDialog
 import com.jeremymabilangan.ui.contact.R
 import com.jeremymabilangan.ui.contact.base.BaseFragment
 import com.jeremymabilangan.ui.contact.extra.afterSearchViewTextChange
@@ -18,6 +20,7 @@ import com.jeremymabilangan.ui.contact.utils.PreferenceManager
 import com.jeremymabilangan.ui.contact.utils.SaveToPreference
 import kotlinx.android.synthetic.main.activity_main.*
 
+@Suppress("DEPRECATION")
 class ContactsFragment : BaseFragment(), ContactView {
 
     private val requestCodeAddContact = 1001
@@ -114,7 +117,7 @@ class ContactsFragment : BaseFragment(), ContactView {
         validateToDeleteHistory()
         validateToRestoreHistory()
         validateContactView()
-        validateShowContactHistoryButton()
+//        validateShowContactHistoryButton()
 
         rvContacts?.adapter?.notifyDataSetChanged()
     }
@@ -137,13 +140,9 @@ class ContactsFragment : BaseFragment(), ContactView {
     private fun initRecyclerView() {
         rvContacts.apply {
             visibility = View.VISIBLE
-            adapter = ContactAdapter(context, contactArray, {
-                viewContactDetails(it)
-            }, { contact: Contact, position: Int ->
-                deleteContact(contact, position)
-            }, { contact: Contact, position: Int ->
-                goToEditContact(contact, position)
-            })
+            adapter = ContactAdapter(context, contactArray) { contact: Contact, position: Int ->
+                createDialog(contact, position)
+            }
 
             layoutManager = LinearLayoutManager(activity)
             setHasFixedSize(true)
@@ -157,6 +156,20 @@ class ContactsFragment : BaseFragment(), ContactView {
             (this.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
             initRecyclerViewFilter(adapter = adapter as ContactAdapter)
+        }
+    }
+
+    private fun createDialog(contact: Contact, position: Int) {
+        MaterialDialog(requireContext()).show {
+            title(text = "Contact")
+            message(text = "What do you want to this contact: " + contact.contactName + "?")
+            neutralButton(text = "Cancel")
+            positiveButton(text = "Edit") {
+                goToEditContact(contact, position)
+            }
+            negativeButton(text = "Delete") {
+                deleteContact(contact, position)
+            }
         }
     }
 
@@ -182,10 +195,12 @@ class ContactsFragment : BaseFragment(), ContactView {
 
             editContactPosition = position
 
-//            startActivityForResult(
-//                intentFor<AddContactActivity>("name" to contactName, "mobilenumber" to contactMobileNumber),
-//                requestCodeEditContact
-//            )
+            val intent = Intent(requireContext(), AddContactActivity::class.java)
+
+            intent.putExtra("name", contactName)
+            intent.putExtra("mobilenumber", contactMobileNumber)
+
+            startActivityForResult(intent, requestCodeEditContact)
         }
     }
 
@@ -224,6 +239,8 @@ class ContactsFragment : BaseFragment(), ContactView {
 
     private fun loadContact() {
         val rawJSONString = preferenceManager.loadString("contact")
+
+        Log.d(requireContext().toString(), "loadContact $rawJSONString")
 
         if (rawJSONString.isNotEmpty()) {
             val contactFromPreferenceManager = gsonConverter.stringToJSON(rawJSONString) as ArrayList<Contact>
@@ -286,7 +303,7 @@ class ContactsFragment : BaseFragment(), ContactView {
 
         addToHistory(contact)
 
-        validateShowContactHistoryButton()
+//        validateShowContactHistoryButton()
 
         val contactListCount = rvContacts?.adapter?.itemCount
         if (contactListCount == 0) {
@@ -310,7 +327,7 @@ class ContactsFragment : BaseFragment(), ContactView {
 
         validateContactView()
 
-        validateShowContactHistoryButton()
+//        validateShowContactHistoryButton()
     }
 
     private fun addToHistory(contact: Contact) {
@@ -326,11 +343,13 @@ class ContactsFragment : BaseFragment(), ContactView {
         if (contactListCount == 0) {
             tvNoContactFound.visibility = View.VISIBLE
             bDeleteAllContacts.visibility = View.GONE
-            svSearchContact.visibility = View.INVISIBLE
+            svSearchContact.visibility = View.GONE
+            rvContacts.visibility = View.GONE
         } else {
-            tvNoContactFound.visibility = View.INVISIBLE
+            tvNoContactFound.visibility = View.GONE
             bDeleteAllContacts.visibility = View.VISIBLE
             svSearchContact.visibility = View.VISIBLE
+            rvContacts.visibility = View.VISIBLE
         }
     }
 

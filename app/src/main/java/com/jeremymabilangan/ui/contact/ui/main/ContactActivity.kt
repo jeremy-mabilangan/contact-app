@@ -3,9 +3,11 @@ package com.jeremymabilangan.ui.contact.ui.main
 import android.app.Activity
 import android.content.Intent
 import android.view.View
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.afollestad.materialdialogs.MaterialDialog
 import com.jeremymabilangan.ui.contact.R
 import com.jeremymabilangan.ui.contact.base.BaseActivity
 import com.jeremymabilangan.ui.contact.extra.afterSearchViewTextChange
@@ -139,13 +141,9 @@ class ContactActivity : BaseActivity() {
     private fun initRecyclerView() {
         rvContacts.apply {
             visibility = View.VISIBLE
-            adapter = ContactAdapter(this@ContactActivity, contactArray, {
-                viewContactDetails(it)
-            }, { contact: Contact, position: Int ->
-                deleteContact(contact, position)
-            }, { contact: Contact, position: Int ->
-                goToEditContact(contact, position)
-            })
+            adapter = ContactAdapter(this@ContactActivity, contactArray) { contact: Contact, position: Int ->
+                createDialog(contact, position)
+            }
 
             layoutManager = LinearLayoutManager(this@ContactActivity)
             setHasFixedSize(true)
@@ -159,6 +157,20 @@ class ContactActivity : BaseActivity() {
             (this.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
             initRecyclerViewFilter(adapter = adapter as ContactAdapter)
+        }
+    }
+
+    private fun createDialog(contact: Contact, position: Int) {
+        MaterialDialog(this).show {
+            title(text = "Contact")
+            message(text = "What do you want to this contact : " + contact.contactName)
+            neutralButton(text = "Cancel")
+            positiveButton(text = "Edit") {
+
+            }
+            negativeButton(text = "Delete") {
+                deleteContact(contact, position)
+            }
         }
     }
 

@@ -57,11 +57,9 @@ class HistoryActivity : BaseActivity() {
     private fun initRecyclerView() {
         rvHistory.apply {
 
-            adapter = HistoryAdapter(this@HistoryActivity, historyArray , {
-                deleteHistory(it)
-            }, { position: Int ->
-                restoreHistory(position)
-            })
+            adapter = HistoryAdapter(this@HistoryActivity, historyArray) { history: History, position: Int ->
+//                createDialog(history, position)
+            }
 
             layoutManager = LinearLayoutManager(this@HistoryActivity)
             setHasFixedSize(true)
