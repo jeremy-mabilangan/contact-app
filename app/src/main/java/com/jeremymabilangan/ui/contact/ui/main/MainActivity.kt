@@ -59,24 +59,25 @@ class MainActivity : BaseActivity() {
         if (lastBackStackName == backStackName) return
 
        fragment?.apply {
+
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
 
             if (supportFragmentManager.findFragmentByTag(backStackName) != null) {
                 val baseFragment = supportFragmentManager.findFragmentByTag(backStackName) as BaseFragment
                 transaction
                     .show(baseFragment)
-                    .commit()
+                    .commitAllowingStateLoss()
             } else {
                 transaction
                     .add(R.id.fragmentContainer, this, backStackName)
-                    .commit()
+                    .commitAllowingStateLoss()
             }
 
-            supportFragmentManager.findFragmentByTag(lastBackStackName)?.apply {
-                supportFragmentManager.beginTransaction()
-                    .hide(this)
-                    .commit()
-            }
+           supportFragmentManager.findFragmentByTag(lastBackStackName)?.apply {
+               supportFragmentManager.beginTransaction()
+                   .hide(this)
+                   .commitAllowingStateLoss()
+           }
         }
 
         lastBackStackName = backStackName
