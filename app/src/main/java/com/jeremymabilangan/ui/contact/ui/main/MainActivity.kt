@@ -1,6 +1,6 @@
 package com.jeremymabilangan.ui.contact.ui.main
 
-import android.content.Intent
+import android.R.attr
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.jeremymabilangan.ui.contact.R
@@ -11,6 +11,7 @@ import com.jeremymabilangan.ui.contact.extra.emptyString
 import com.jeremymabilangan.ui.contact.ui.contacts.ContactsFragment
 import com.jeremymabilangan.ui.contact.ui.history2.HistoryFragments
 import kotlinx.android.synthetic.main.activity_main2.*
+
 
 class MainActivity : BaseActivity() {
 
@@ -66,17 +67,17 @@ class MainActivity : BaseActivity() {
                 val baseFragment = supportFragmentManager.findFragmentByTag(backStackName) as BaseFragment
                 transaction
                     .show(baseFragment)
-                    .commitAllowingStateLoss()
+                    .commit()
             } else {
                 transaction
                     .add(R.id.fragmentContainer, this, backStackName)
-                    .commitAllowingStateLoss()
+                    .commit()
             }
 
            supportFragmentManager.findFragmentByTag(lastBackStackName)?.apply {
                supportFragmentManager.beginTransaction()
                    .hide(this)
-                   .commitAllowingStateLoss()
+                   .commit()
            }
         }
 

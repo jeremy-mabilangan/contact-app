@@ -43,8 +43,6 @@ abstract class BaseFragment: Fragment(), ConstructView {
         layoutId().let {
             return inflater.inflate(it, container, false)
         }
-
-        return null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

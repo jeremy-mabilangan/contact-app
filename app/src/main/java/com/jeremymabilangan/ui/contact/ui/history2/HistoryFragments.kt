@@ -27,6 +27,12 @@ class HistoryFragments : BaseFragment(), HistoryView {
 
     private lateinit var preferenceManager : PreferenceManager
 
+    override fun onResume() {
+        super.onResume()
+
+        Log.d(requireContext().toString(), "SECOND FRAGMENT")
+    }
+
     override fun layoutId(): Int {
         return R.layout.fragment_history
     }
@@ -37,8 +43,6 @@ class HistoryFragments : BaseFragment(), HistoryView {
         initRecyclerView()
         initPreferenceManager()
         loadHistory()
-
-        Log.d(requireContext().toString(), "history view created")
     }
 
 //    private fun validateIntent() {
@@ -101,7 +105,7 @@ class HistoryFragments : BaseFragment(), HistoryView {
         MaterialDialog(requireContext()).show {
             title(text = "History")
             message(text = "What do you want to this contact: " + history.historyName + "?")
-            neutralButton(text = "Cancel")
+            cancelOnTouchOutside
             positiveButton(text = "Restore") {
                 restoreHistory(position)
             }

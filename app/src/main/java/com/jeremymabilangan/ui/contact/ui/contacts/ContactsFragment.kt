@@ -12,6 +12,7 @@ import com.jeremymabilangan.ui.contact.R
 import com.jeremymabilangan.ui.contact.base.BaseFragment
 import com.jeremymabilangan.ui.contact.extra.afterSearchViewTextChange
 import com.jeremymabilangan.ui.contact.ui.addcontact.AddContactActivity
+import com.jeremymabilangan.ui.contact.ui.contactdetails.ContactDetailsActivity
 import com.jeremymabilangan.ui.contact.ui.contacts.adapter.ContactAdapter
 import com.jeremymabilangan.ui.contact.ui.contacts.dataclass.Contact
 import com.jeremymabilangan.ui.contact.ui.history.dataclass.History
@@ -21,7 +22,7 @@ import com.jeremymabilangan.ui.contact.utils.SaveToPreference
 import kotlinx.android.synthetic.main.activity_main.*
 
 @Suppress("DEPRECATION")
-class ContactsFragment : BaseFragment(), ContactView {
+class ContactsFragment : BaseFragment(), ContactsView {
 
     private val requestCodeAddContact = 1001
     private val requestCodeEditContact = 1002
@@ -46,6 +47,12 @@ class ContactsFragment : BaseFragment(), ContactView {
      *
      * naming convention
      */
+
+    override fun onResume() {
+        super.onResume()
+
+        Log.d(requireContext().toString(), "FIRST FRAGMENT")
+    }
 
     override fun layoutId(): Int {
         return R.layout.fragment_contacts
@@ -163,7 +170,10 @@ class ContactsFragment : BaseFragment(), ContactView {
         MaterialDialog(requireContext()).show {
             title(text = "Contact")
             message(text = "What do you want to this contact: " + contact.contactName + "?")
-            neutralButton(text = "Cancel")
+            cancelOnTouchOutside
+            neutralButton(text = "View") {
+                viewContactDetails(contact)
+            }
             positiveButton(text = "Edit") {
                 goToEditContact(contact, position)
             }
@@ -207,10 +217,10 @@ class ContactsFragment : BaseFragment(), ContactView {
     private fun viewContactDetails(contact: Contact) {
         val rawJSONString = gsonConverter.jsonToString(contact)
 
-//        startActivityForResult(
-//            intentFor<ContactDetailsActivity>("contact" to rawJSONString),
-//            requestCodeViewDetails
-//        )
+        val intent = Intent(requireContext(), ContactDetailsActivity::class.java)
+        intent.putExtra("contact", rawJSONString)
+
+        startActivityForResult(intent, requestCodeViewDetails)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
