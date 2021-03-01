@@ -10,21 +10,22 @@
         android:id="@+id/tbContact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:background="@color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:subtitleTextColor="#000"
         app:title="Contact"
-        app:titleTextColor="#fff" />
+        app:titleTextColor="#000" />
 
     <Button
         android:id="@+id/bDeleteAllContacts"
         android:layout_width="37dp"
         android:layout_height="40dp"
+        android:layout_marginEnd="10dp"
         android:visibility="gone"
-        android:background="@drawable/ic_baseline_delete_white"
+        android:background="@drawable/ic_baseline_delete_outline_24"
         app:layout_constraintBottom_toBottomOf="@+id/tbContact"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tbContact" />
@@ -43,9 +44,10 @@
     <androidx.appcompat.widget.SearchView
         android:id="@+id/svSearchContact"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:textCursorDrawable="@null"
-        android:visibility="gone"
+        android:background="@drawable/searchview_shape_bg"
+        android:layout_margin="@dimen/margin_normal"
         app:queryHint="Search Contact"
         app:iconifiedByDefault="false"
         app:queryBackground="@null"
@@ -80,7 +82,7 @@
         android:id="@+id/rvContacts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="105dp"
+        android:layout_marginTop="125dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

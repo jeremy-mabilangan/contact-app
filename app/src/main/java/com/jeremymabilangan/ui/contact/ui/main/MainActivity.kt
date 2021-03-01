@@ -1,6 +1,5 @@
 package com.jeremymabilangan.ui.contact.ui.main
 
-import android.R.attr
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.jeremymabilangan.ui.contact.R

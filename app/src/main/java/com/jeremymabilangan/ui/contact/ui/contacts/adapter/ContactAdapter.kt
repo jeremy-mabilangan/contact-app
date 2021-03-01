@@ -8,12 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.jeremymabilangan.ui.contact.R
 import com.jeremymabilangan.ui.contact.ui.contacts.dataclass.Contact
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.row_contact.view.*
 import java.util.*
+
 
 @Suppress("NAME_SHADOWING")
 class ContactAdapter(private var context: Context, private val contacts: List<Contact>,

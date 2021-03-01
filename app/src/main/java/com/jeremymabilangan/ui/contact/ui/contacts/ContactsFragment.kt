@@ -72,10 +72,6 @@ class ContactsFragment : BaseFragment(), ContactsView {
         bDeleteAllContacts.setOnClickListener {
             deleteAllContacts()
         }
-
-        bContactsHistory.setOnClickListener {
-            showContactHistory()
-        }
     }
 
     private fun validateToDeleteHistory() {
