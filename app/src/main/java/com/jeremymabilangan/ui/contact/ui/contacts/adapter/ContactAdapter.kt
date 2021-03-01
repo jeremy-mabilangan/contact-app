@@ -11,7 +11,6 @@ import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.jeremymabilangan.ui.contact.R
 import com.jeremymabilangan.ui.contact.ui.contacts.dataclass.Contact
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.row_contact.view.*
 import java.util.*
 

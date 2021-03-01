@@ -3,7 +3,6 @@ package com.jeremymabilangan.ui.contact.ui.main
 import android.app.Activity
 import android.content.Intent
 import android.view.View
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator

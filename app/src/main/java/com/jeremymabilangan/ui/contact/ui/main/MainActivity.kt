@@ -11,7 +11,6 @@ import com.jeremymabilangan.ui.contact.ui.contacts.ContactsFragment
 import com.jeremymabilangan.ui.contact.ui.history2.HistoryFragments
 import kotlinx.android.synthetic.main.activity_main2.*
 
-
 class MainActivity : BaseActivity() {
 
     private var lastBackStackName = emptyString()
@@ -58,7 +57,7 @@ class MainActivity : BaseActivity() {
 
         if (lastBackStackName == backStackName) return
 
-       fragment?.apply {
+        fragment?.apply {
 
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
 
@@ -75,12 +74,12 @@ class MainActivity : BaseActivity() {
                     .commit()
             }
 
-           supportFragmentManager.findFragmentByTag(lastBackStackName)?.apply {
-               supportFragmentManager.beginTransaction()
-                   .setCustomAnimations(0, animExit)
-                   .hide(this)
-                   .commit()
-           }
+            supportFragmentManager.findFragmentByTag(lastBackStackName)?.apply {
+                supportFragmentManager.beginTransaction()
+                    .setCustomAnimations(0, animExit)
+                    .hide(this)
+                    .commit()
+            }
         }
 
         lastBackStackName = backStackName

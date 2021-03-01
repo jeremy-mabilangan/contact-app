@@ -10,13 +10,13 @@
         android:id="@+id/tbHistory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/border_bottom_shadow"
         app:layout_constraintTop_toTopOf="parent"
         app:subtitleTextColor="#000"
         app:title="History"
-        app:titleTextColor="#fff"/>
+        app:titleTextColor="#282828"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvHistory"

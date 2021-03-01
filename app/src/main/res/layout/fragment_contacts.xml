@@ -10,14 +10,14 @@
         android:id="@+id/tbContact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/transparent"
+        android:background="@drawable/border_bottom_shadow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:subtitleTextColor="#000"
+        app:subtitleTextColor="#282828"
         app:title="Contact"
-        app:titleTextColor="#000" />
+        app:titleTextColor="#282828" />
 
     <Button
         android:id="@+id/bDeleteAllContacts"
@@ -59,20 +59,25 @@
         android:id="@+id/tvNoContactFound"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="#1ab2ff"
         android:gravity="center"
         android:text="No Contact Found"
-        android:textColor="#000"
+        android:textColor="#282828"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/bAddContact"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!--  fabAddContact  -->
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/bAddContact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:src="@drawable/ic_baseline_add_24"
+        app:backgroundTint="#1ab2ff"
         app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -82,7 +87,7 @@
         android:id="@+id/rvContacts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="125dp"
+        android:layout_marginTop="112dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

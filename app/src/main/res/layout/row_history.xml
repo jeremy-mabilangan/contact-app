@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/containerHistory"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="@dimen/margin_normal"
@@ -9,27 +10,40 @@
     android:focusable="true"
     android:clickable="true">
 
+    <ImageView
+        android:id="@+id/ivHistoryImg"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/contact_img_bg"
+        android:src="@drawable/ic_baseline_person_white_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
     <TextView
         android:id="@+id/tvHistoryName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="3dp"
         android:text="Name"
         android:textColor="#000"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivHistoryImg"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvHistoryMobileNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="4dp"
         android:text="Mobile Number"
         android:textColor="#000"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivHistoryImg"
         app:layout_constraintTop_toBottomOf="@+id/tvHistoryName" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

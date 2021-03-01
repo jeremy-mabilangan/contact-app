@@ -4,15 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp"
+    android:layout_margin="@dimen/margin_normal"
     tools:context=".ui.addcontact.AddContactActivity">
 
     <Button
         android:id="@+id/bAddContactBack"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
         android:background="@drawable/ic_baseline_arrow_back_black_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -88,9 +86,9 @@
     <Button
         android:id="@+id/bSaveContact"
         android:layout_width="wrap_content"
+        android:background="?selectableItemBackground"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@color/transparent"
         android:outlineProvider="none"
         android:text="Save"
         android:textColor="#000"
