@@ -20,6 +20,13 @@ import com.jeremymabilangan.ui.contact.utils.GSONConverter
 import com.jeremymabilangan.ui.contact.utils.PreferenceManager
 import com.jeremymabilangan.ui.contact.utils.SaveToPreference
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.bAddContact
+import kotlinx.android.synthetic.main.activity_main.bContactsHistory
+import kotlinx.android.synthetic.main.activity_main.bDeleteAllContacts
+import kotlinx.android.synthetic.main.activity_main.rvContacts
+import kotlinx.android.synthetic.main.activity_main.svSearchContact
+import kotlinx.android.synthetic.main.activity_main.tvNoContactFound
+import kotlinx.android.synthetic.main.fragment_contacts.*
 
 @Suppress("DEPRECATION")
 class ContactsFragment : BaseFragment(), ContactsView {
@@ -348,11 +355,13 @@ class ContactsFragment : BaseFragment(), ContactsView {
         val contactListCount = rvContacts?.adapter?.itemCount
         if (contactListCount == 0) {
             tvNoContactFound.visibility = View.VISIBLE
+            ivIconNoContactFound.visibility = View.VISIBLE
             bDeleteAllContacts.visibility = View.GONE
             svSearchContact.visibility = View.GONE
             rvContacts.visibility = View.GONE
         } else {
             tvNoContactFound.visibility = View.GONE
+            ivIconNoContactFound.visibility = View.GONE
             bDeleteAllContacts.visibility = View.VISIBLE
             svSearchContact.visibility = View.VISIBLE
             rvContacts.visibility = View.VISIBLE

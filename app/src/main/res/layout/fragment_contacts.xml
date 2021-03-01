@@ -55,19 +55,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tbContact" />
 
+    <ImageView
+        android:id="@+id/ivIconNoContactFound"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="105dp"
+        android:src="@drawable/ic_baseline_person_no_contact_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/svSearchContact"
+        tools:ignore="ContentDescription" />
+
     <TextView
         android:id="@+id/tvNoContactFound"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="#1ab2ff"
         android:gravity="center"
-        android:text="No Contact Found"
-        android:textColor="#282828"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/bAddContact"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!--  fabAddContact  -->
+        android:text="You don't have any contacts yet"
+        android:textColor="@color/colorDarkGray"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/ivIconNoContactFound"
+        tools:ignore="HardcodedText" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/bAddContact"
