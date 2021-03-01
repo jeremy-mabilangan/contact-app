@@ -71,6 +71,7 @@ class MainActivity : BaseActivity() {
                     .commit()
             } else {
                 transaction
+                    .setCustomAnimations(animEnter, 0)
                     .add(R.id.fragmentContainer, this, backStackName)
                     .commit()
             }
