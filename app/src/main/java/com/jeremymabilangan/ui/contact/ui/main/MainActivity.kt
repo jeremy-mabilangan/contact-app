@@ -24,7 +24,7 @@ class MainActivity : BaseActivity() {
     override fun viewCreated() {
         listenToEvents()
 
-        openFragment(newInstance(ContactsFragment::class.java), "Contacts")
+        openFragment(newInstance(ContactsFragment::class.java), "Contacts", 0, 0)
     }
 
     // onOptionCreated(1, 2)
@@ -44,10 +44,10 @@ class MainActivity : BaseActivity() {
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.contact_page -> {
-                    openFragment(newInstance(ContactsFragment::class.java), "Contacts")
+                    openFragment(newInstance(ContactsFragment::class.java), "Contacts", R.anim.enter_from_left, R.anim.exit_to_right)
                 }
                 R.id.history_page -> {
-                    openFragment(newInstance(HistoryFragments::class.java), "History")
+                    openFragment(newInstance(HistoryFragments::class.java), "History", R.anim.enter_from_right, R.anim.exit_to_left)
                 }
             }
 
@@ -55,7 +55,7 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun openFragment(fragment: Fragment?, backStackName: String) {
+    private fun openFragment(fragment: Fragment?, backStackName: String, animEnter: Int, animExit: Int) {
 
         if (lastBackStackName == backStackName) return
 
@@ -66,6 +66,7 @@ class MainActivity : BaseActivity() {
             if (supportFragmentManager.findFragmentByTag(backStackName) != null) {
                 val baseFragment = supportFragmentManager.findFragmentByTag(backStackName) as BaseFragment
                 transaction
+                    .setCustomAnimations(animEnter, 0)
                     .show(baseFragment)
                     .commit()
             } else {
@@ -76,6 +77,7 @@ class MainActivity : BaseActivity() {
 
            supportFragmentManager.findFragmentByTag(lastBackStackName)?.apply {
                supportFragmentManager.beginTransaction()
+                   .setCustomAnimations(0, animExit)
                    .hide(this)
                    .commit()
            }
