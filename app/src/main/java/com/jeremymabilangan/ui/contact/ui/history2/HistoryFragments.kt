@@ -1,6 +1,7 @@
 package com.jeremymabilangan.ui.contact.ui.history2
 
 import android.util.Log
+import android.view.View
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -12,7 +13,8 @@ import com.jeremymabilangan.ui.contact.ui.history.dataclass.History
 import com.jeremymabilangan.ui.contact.utils.GSONConverter
 import com.jeremymabilangan.ui.contact.utils.PreferenceManager
 import com.jeremymabilangan.ui.contact.utils.SaveToPreference
-import kotlinx.android.synthetic.main.activity_history.*
+import kotlinx.android.synthetic.main.activity_history.rvHistory
+import kotlinx.android.synthetic.main.fragment_history.*
 
 class HistoryFragments : BaseFragment(), HistoryView {
 
@@ -39,6 +41,8 @@ class HistoryFragments : BaseFragment(), HistoryView {
         initRecyclerView()
         initPreferenceManager()
         loadHistory()
+
+        validateHistoryView()
     }
 
     private fun initPreferenceManager() {
@@ -96,11 +100,17 @@ class HistoryFragments : BaseFragment(), HistoryView {
 
         historyArray.removeAt(index)
 
+        var historyCountList = 0
+
         rvHistory?.adapter?.apply {
             notifyItemRemoved(index)
             notifyItemRangeChanged(index, historyArray.size)
+            historyCountList = itemCount
         }
 
+        if (historyCountList == 0) {
+            validateHistoryView()
+        }
         saveToPreference.deleteHistory(preferenceManager = preferenceManager, gsonConverter = gsonConverter, historyToDelete =  historyToDelete)
     }
 
@@ -109,11 +119,30 @@ class HistoryFragments : BaseFragment(), HistoryView {
 
         historyArray.removeAt(index)
 
+        var historyCountList = 0
+
         rvHistory?.adapter?.apply {
             notifyItemRemoved(index)
             notifyItemRangeChanged(index, historyArray.size)
+            historyCountList = itemCount
+        }
+
+        if (historyCountList == 0) {
+            validateHistoryView()
         }
 
         saveToPreference.restoreHistory(preferenceManager = preferenceManager, gsonConverter = gsonConverter, historyToRestore = historyToRestore)
+    }
+    private fun validateHistoryView() {
+        val historyCountList = rvHistory?.adapter?.itemCount
+        if (historyCountList == 0) {
+            rvHistory.visibility = View.GONE
+            ivIconNoHistoryFound.visibility = View.VISIBLE
+            tvNoHistoryFound.visibility = View.VISIBLE
+        } else {
+            rvHistory.visibility = View.VISIBLE
+            ivIconNoHistoryFound.visibility = View.GONE
+            tvNoHistoryFound.visibility = View.GONE
+        }
     }
 }

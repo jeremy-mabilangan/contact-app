@@ -20,7 +20,6 @@ import com.jeremymabilangan.ui.contact.utils.GSONConverter
 import com.jeremymabilangan.ui.contact.utils.PreferenceManager
 import com.jeremymabilangan.ui.contact.utils.SaveToPreference
 import kotlinx.android.synthetic.main.activity_main.bAddContact
-import kotlinx.android.synthetic.main.activity_main.bContactsHistory
 import kotlinx.android.synthetic.main.activity_main.bDeleteAllContacts
 import kotlinx.android.synthetic.main.activity_main.rvContacts
 import kotlinx.android.synthetic.main.activity_main.svSearchContact
@@ -295,15 +294,17 @@ class ContactsFragment : BaseFragment(), ContactsView {
     private fun deleteContact(contact: Contact, index: Int) {
         contactArray.removeAt(index)
 
+        var contactListCount = 0
+
         rvContacts?.adapter?.apply {
             notifyItemRemoved(index)
             notifyItemRangeChanged(index, contactArray.size)
+            contactListCount = itemCount
         }
 
         addToHistory(contact)
         saveContactToPreferenceManager(contactArray)
 
-        val contactListCount = rvContacts?.adapter?.itemCount
         if (contactListCount == 0) {
             validateContactView()
         }
