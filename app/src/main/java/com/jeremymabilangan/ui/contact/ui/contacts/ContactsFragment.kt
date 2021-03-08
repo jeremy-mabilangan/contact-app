@@ -19,7 +19,6 @@ import com.jeremymabilangan.ui.contact.ui.history.dataclass.History
 import com.jeremymabilangan.ui.contact.utils.GSONConverter
 import com.jeremymabilangan.ui.contact.utils.PreferenceManager
 import com.jeremymabilangan.ui.contact.utils.SaveToPreference
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.bAddContact
 import kotlinx.android.synthetic.main.activity_main.bContactsHistory
 import kotlinx.android.synthetic.main.activity_main.bDeleteAllContacts
@@ -127,7 +126,6 @@ class ContactsFragment : BaseFragment(), ContactsView {
         validateToDeleteHistory()
         validateToRestoreHistory()
         validateContactView()
-//        validateShowContactHistoryButton()
 
         rvContacts?.adapter?.notifyDataSetChanged()
     }
@@ -184,17 +182,6 @@ class ContactsFragment : BaseFragment(), ContactsView {
                 deleteContact(contact, position)
             }
         }
-    }
-
-    private fun showContactHistory() {
-        val toString = gsonConverter.jsonToString(historyArray)
-
-//        activity?.apply {
-//            startActivityForResult(
-//                intentFor<HistoryActivity>("history" to toString),
-//                requestCodeHistory
-//            )
-//        }
     }
 
     private fun createContact() {
@@ -258,9 +245,7 @@ class ContactsFragment : BaseFragment(), ContactsView {
         if (rawJSONString.isNotEmpty()) {
             val contactFromPreferenceManager = gsonConverter.stringToJSON(rawJSONString) as ArrayList<Contact>
 
-            for (contact in contactFromPreferenceManager) {
-                contactArray.add(contact)
-            }
+            contactArray.addAll(contactFromPreferenceManager)
         }
     }
 
@@ -310,13 +295,13 @@ class ContactsFragment : BaseFragment(), ContactsView {
     private fun deleteContact(contact: Contact, index: Int) {
         contactArray.removeAt(index)
 
-        rvContacts?.adapter?.notifyDataSetChanged()
-
-        saveContactToPreferenceManager(contactArray)
+        rvContacts?.adapter?.apply {
+            notifyItemRemoved(index)
+            notifyItemRangeChanged(index, contactArray.size)
+        }
 
         addToHistory(contact)
-
-//        validateShowContactHistoryButton()
+        saveContactToPreferenceManager(contactArray)
 
         val contactListCount = rvContacts?.adapter?.itemCount
         if (contactListCount == 0) {
@@ -339,8 +324,6 @@ class ContactsFragment : BaseFragment(), ContactsView {
         rvContacts?.adapter?.notifyDataSetChanged()
 
         validateContactView()
-
-//        validateShowContactHistoryButton()
     }
 
     private fun addToHistory(contact: Contact) {
@@ -365,18 +348,6 @@ class ContactsFragment : BaseFragment(), ContactsView {
             bDeleteAllContacts.visibility = View.VISIBLE
             svSearchContact.visibility = View.VISIBLE
             rvContacts.visibility = View.VISIBLE
-        }
-    }
-
-    private fun validateShowContactHistoryButton() {
-        if (historyArray.isNotEmpty()) {
-            if (bContactsHistory.visibility == View.VISIBLE) {
-                return
-            }
-
-            bContactsHistory.visibility = View.VISIBLE
-        } else {
-            bContactsHistory.visibility = View.INVISIBLE
         }
     }
 

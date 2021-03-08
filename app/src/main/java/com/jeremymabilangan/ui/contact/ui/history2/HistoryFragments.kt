@@ -1,6 +1,5 @@
 package com.jeremymabilangan.ui.contact.ui.history2
 
-import android.app.Activity
 import android.util.Log
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -8,7 +7,6 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.afollestad.materialdialogs.MaterialDialog
 import com.jeremymabilangan.ui.contact.R
 import com.jeremymabilangan.ui.contact.base.BaseFragment
-import com.jeremymabilangan.ui.contact.ui.contacts.dataclass.Contact
 import com.jeremymabilangan.ui.contact.ui.history.adapter.HistoryAdapter
 import com.jeremymabilangan.ui.contact.ui.history.dataclass.History
 import com.jeremymabilangan.ui.contact.utils.GSONConverter
@@ -38,21 +36,10 @@ class HistoryFragments : BaseFragment(), HistoryView {
     }
 
     override fun viewCreated() {
-//        validateIntent()
-//        listenToEvents()
         initRecyclerView()
         initPreferenceManager()
         loadHistory()
     }
-
-//    private fun validateIntent() {
-//        val history: String ? = intent.getStringExtra("history")
-//
-//        history?.apply {
-//            val newHistoryArray = gsonConverter.stringToJSON(this) as ArrayList<History>
-//            historyArray = newHistoryArray
-//        }
-//    }
 
     private fun initPreferenceManager() {
         preferenceManager = PreferenceManager(requireContext())
@@ -64,12 +51,9 @@ class HistoryFragments : BaseFragment(), HistoryView {
         Log.d(requireContext().toString(), "loadHistory => $rawJSONString")
 
         if (rawJSONString.isNotEmpty()) {
-
             val historyFromPreferenceManager = gsonConverter.stringToJSON(rawJSONString) as ArrayList<History>
 
-            for (history in historyFromPreferenceManager) {
-                historyArray.add(history)
-            }
+            historyArray.addAll(historyFromPreferenceManager)
         }
     }
 
@@ -93,14 +77,6 @@ class HistoryFragments : BaseFragment(), HistoryView {
         }
     }
 
-//    private fun goToContacts() {
-//        setResult(
-//            Activity.RESULT_OK
-//        )
-//
-//        finish()
-//    }
-
     private fun createDialog(history: History, position: Int) {
         MaterialDialog(requireContext()).show {
             title(text = "History")
@@ -119,7 +95,11 @@ class HistoryFragments : BaseFragment(), HistoryView {
         historyToDelete.add(historyArray[index])
 
         historyArray.removeAt(index)
-        rvHistory?.adapter?.notifyDataSetChanged()
+
+        rvHistory?.adapter?.apply {
+            notifyItemRemoved(index)
+            notifyItemRangeChanged(index, historyArray.size)
+        }
 
         saveToPreference.deleteHistory(preferenceManager = preferenceManager, gsonConverter = gsonConverter, historyToDelete =  historyToDelete)
     }
@@ -128,7 +108,11 @@ class HistoryFragments : BaseFragment(), HistoryView {
         historyToRestore.add(historyArray[index])
 
         historyArray.removeAt(index)
-        rvHistory?.adapter?.notifyDataSetChanged()
+
+        rvHistory?.adapter?.apply {
+            notifyItemRemoved(index)
+            notifyItemRangeChanged(index, historyArray.size)
+        }
 
         saveToPreference.restoreHistory(preferenceManager = preferenceManager, gsonConverter = gsonConverter, historyToRestore = historyToRestore)
     }
