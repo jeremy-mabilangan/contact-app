@@ -12,4 +12,12 @@ interface ContactsFragmentView {
     fun saveToHistoryToDelete(toDeleteHistory: ArrayList<History>)
 
     fun saveToHistoryToRestore(toRestoreHistory: ArrayList<History>)
+
+    fun addToContactArrayList(contactFromPreferenceManager: ArrayList<Contact>)
+
+    fun addToHistoryList(historyFromPreferenceManager: ArrayList<History>)
+
+    fun updateContactList(contact: Contact)
+
+    fun saveToContacts(name: String, mobileNumber: String)
 }

@@ -2,7 +2,6 @@ package com.jeremymabilangan.ui.contact.ui.contacts
 
 import android.app.Activity
 import android.content.Intent
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -84,7 +83,7 @@ class ContactsFragment : BaseFragment(), ContactsFragmentView {
     private fun initPreferenceManager() {
         preferenceManager = PreferenceManager(context = requireContext())
 
-        loadContact()
+        loadContacts()
         loadHistory()
 
         validateHistory()
@@ -144,6 +143,28 @@ class ContactsFragment : BaseFragment(), ContactsFragmentView {
 
     override fun saveToHistoryToRestore(toRestoreHistory: ArrayList<History>) {
         saveToPreference.restoreHistory(preferenceManager = preferenceManager, gsonConverter = gsonConverter, historyToRestore =  toRestoreHistory)
+    }
+
+    override fun addToContactArrayList(contactFromPreferenceManager: ArrayList<Contact>) {
+        contactArray.addAll(contactFromPreferenceManager)
+    }
+
+    override fun addToHistoryList(historyFromPreferenceManager: ArrayList<History>) {
+        historyArray = historyFromPreferenceManager
+    }
+
+    override fun updateContactList(contact: Contact) {
+        val index = editContactPosition
+
+        contactArray[index!!] = contact
+
+        saveContactToPreferenceManager(contactArray)
+
+        rvContacts?.adapter?.notifyItemRangeChanged(index, contactArray.size)
+    }
+
+    override fun saveToContacts(name: String, mobileNumber: String) {
+        saveContact(Contact(contactName = name, contactMobileNumber = mobileNumber))
     }
 
     private fun createDialog(contact: Contact, position: Int) {
@@ -216,23 +237,16 @@ class ContactsFragment : BaseFragment(), ContactsFragmentView {
         }
     }
 
-    private fun loadContact() {
+    private fun loadContacts() {
         val rawJSONString = preferenceManager.loadString("contact")
 
-        if (rawJSONString.isNotEmpty()) {
-            val contactFromPreferenceManager = gsonConverter.stringToJSON(rawJSONString) as ArrayList<Contact>
-
-            contactArray.addAll(contactFromPreferenceManager)
-        }
+        contactsFragmentPresenter.loadContacts(rawJSONString)
     }
 
     private fun loadHistory() {
         val rawJSONString = preferenceManager.loadString("history")
 
-        if (rawJSONString.isNotEmpty()) {
-            val historyFromPreferenceManager = gsonConverter.stringToJSON(rawJSONString) as ArrayList<History>
-            historyArray = historyFromPreferenceManager
-        }
+        contactsFragmentPresenter.loadHistory(rawJSONString)
     }
 
     private fun saveContact(contact: Contact) {
@@ -246,27 +260,17 @@ class ContactsFragment : BaseFragment(), ContactsFragmentView {
     }
 
     private fun editContact(intent: Intent) {
-        val index = editContactPosition
-
         val name = intent.getStringExtra("name")
         val mobileNumber = intent.getStringExtra("mobilenumber")
 
-        val contact = Contact(contactName = name!!, contactMobileNumber = mobileNumber!!)
-
-        contactArray[index!!] = contact
-
-        saveContactToPreferenceManager(contactArray)
-
-        rvContacts?.adapter?.notifyDataSetChanged()
+        contactsFragmentPresenter.createContactObject(name = name, mobileNumber = mobileNumber)
     }
 
     private fun updateContact(intent: Intent) {
         val name = intent.getStringExtra("name")
         val mobileNumber = intent.getStringExtra("mobilenumber")
 
-        if (name != null && mobileNumber != null) {
-            saveContact(Contact(contactName = name, contactMobileNumber = mobileNumber))
-        }
+        contactsFragmentPresenter.updateContact(name = name, mobileNumber = mobileNumber)
     }
 
     private fun deleteContact(contact: Contact, index: Int) {

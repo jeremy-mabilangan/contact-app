@@ -1,7 +1,5 @@
 package com.jeremymabilangan.ui.contact.ui.contacts
 
-import android.content.Context
-import com.afollestad.materialdialogs.MaterialDialog
 import com.jeremymabilangan.ui.contact.ui.contacts.dataclass.Contact
 import com.jeremymabilangan.ui.contact.ui.history.dataclass.History
 import com.jeremymabilangan.ui.contact.utils.GSONConverter
@@ -47,6 +45,34 @@ class ContactsFragmentPresenterImpl(private var contactsFragmentView: ContactsFr
             toRestoreHistory.clear()
 
             contactsFragmentView.saveToHistoryToRestore(toRestoreHistory = toRestoreHistory)
+        }
+    }
+
+    override fun loadContacts(rawJSONString: String) {
+        if (rawJSONString.isNotEmpty()) {
+            val contactFromPreferenceManager = gsonConverter.stringToJSON(rawJSONString) as ArrayList<Contact>
+
+            contactsFragmentView.addToContactArrayList(contactFromPreferenceManager = contactFromPreferenceManager)
+        }
+    }
+
+    override fun loadHistory(rawJSONString: String) {
+        if (rawJSONString.isNotEmpty()) {
+            val historyFromPreferenceManager = gsonConverter.stringToJSON(rawJSONString) as ArrayList<History>
+
+            contactsFragmentView.addToHistoryList(historyFromPreferenceManager = historyFromPreferenceManager)
+        }
+    }
+
+    override fun createContactObject(name: String?, mobileNumber: String?) {
+        val contact = Contact(contactName = name!!, contactMobileNumber = mobileNumber!!)
+
+        contactsFragmentView.updateContactList(contact = contact)
+    }
+
+    override fun updateContact(name: String?, mobileNumber: String?) {
+        if (name != null && mobileNumber != null) {
+            contactsFragmentView.saveToContacts(name = name, mobileNumber = mobileNumber)
         }
     }
 
