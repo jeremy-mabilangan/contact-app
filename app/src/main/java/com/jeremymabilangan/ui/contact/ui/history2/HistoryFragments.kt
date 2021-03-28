@@ -15,6 +15,10 @@ import com.jeremymabilangan.ui.contact.utils.PreferenceManager
 import com.jeremymabilangan.ui.contact.utils.SaveToPreference
 import kotlinx.android.synthetic.main.activity_history.rvHistory
 import kotlinx.android.synthetic.main.fragment_history.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class HistoryFragments : BaseFragment(), HistoryView {
 
@@ -108,9 +112,15 @@ class HistoryFragments : BaseFragment(), HistoryView {
             historyCountList = itemCount
         }
 
-        if (historyCountList == 0) {
-            validateHistoryView()
+        GlobalScope.launch(Dispatchers.Main) {
+
+            delay(500)
+
+            if (historyCountList == 0) {
+                validateHistoryView()
+            }
         }
+
         saveToPreference.deleteHistory(preferenceManager = preferenceManager, gsonConverter = gsonConverter, historyToDelete =  historyToDelete)
     }
 
@@ -127,12 +137,18 @@ class HistoryFragments : BaseFragment(), HistoryView {
             historyCountList = itemCount
         }
 
-        if (historyCountList == 0) {
-            validateHistoryView()
+        GlobalScope.launch(Dispatchers.Main) {
+
+            delay(500)
+
+            if (historyCountList == 0) {
+                validateHistoryView()
+            }
         }
 
         saveToPreference.restoreHistory(preferenceManager = preferenceManager, gsonConverter = gsonConverter, historyToRestore = historyToRestore)
     }
+
     private fun validateHistoryView() {
         val historyCountList = rvHistory?.adapter?.itemCount
         if (historyCountList == 0) {

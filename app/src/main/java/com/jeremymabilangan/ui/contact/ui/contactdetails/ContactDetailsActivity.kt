@@ -1,8 +1,6 @@
 package com.jeremymabilangan.ui.contact.ui.contactdetails
 
 import android.content.Intent
-import android.net.Uri
-import android.provider.Telephony
 import com.jeremymabilangan.ui.contact.R
 import com.jeremymabilangan.ui.contact.base.BaseActivity
 import com.jeremymabilangan.ui.contact.extra.emptyString

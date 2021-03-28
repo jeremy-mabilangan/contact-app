@@ -25,9 +25,14 @@ import kotlinx.android.synthetic.main.activity_main.rvContacts
 import kotlinx.android.synthetic.main.activity_main.svSearchContact
 import kotlinx.android.synthetic.main.activity_main.tvNoContactFound
 import kotlinx.android.synthetic.main.fragment_contacts.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlin.collections.ArrayList
 
 @Suppress("DEPRECATION")
-class ContactsFragment : BaseFragment(), ContactsView {
+class ContactsFragment : BaseFragment(), ContactsFragmentView {
 
     private val requestCodeAddContact = 1001
     private val requestCodeEditContact = 1002
@@ -43,27 +48,16 @@ class ContactsFragment : BaseFragment(), ContactsView {
     private val saveToPreference = SaveToPreference()
 
     private lateinit var preferenceManager : PreferenceManager
+    private lateinit var contactsFragmentPresenter: ContactsFragmentPresenter
 
-    /**
-     * Edit
-     * Delete One Contact
-     * Delete All
-     * Search
-     *
-     * naming convention
-     */
-
-    override fun onResume() {
-        super.onResume()
-
-        Log.d(requireContext().toString(), "FIRST FRAGMENT")
-    }
 
     override fun layoutId(): Int {
         return R.layout.fragment_contacts
     }
 
     override fun viewCreated() {
+        contactsFragmentPresenter = ContactsFragmentPresenterImpl(this, gsonConverter)
+
         initRecyclerView()
         listenToEvents()
         initPreferenceManager()
@@ -76,48 +70,6 @@ class ContactsFragment : BaseFragment(), ContactsView {
 
         bDeleteAllContacts.setOnClickListener {
             deleteAllContacts()
-        }
-    }
-
-    private fun validateToDeleteHistory() {
-        val rawJSONString = preferenceManager.loadString("delete_history")
-
-        if (rawJSONString.isNotEmpty()) {
-            val toDeleteHistory = gsonConverter.stringToJSON(rawJSONString) as ArrayList<History>
-
-            for (history in toDeleteHistory) {
-                historyArray.removeAll {
-                    it.historyName == history.historyName
-                }
-            }
-
-            saveHistoryToPreferenceManager(historyArray)
-
-            toDeleteHistory.clear()
-            saveToPreference.deleteHistory(preferenceManager =  preferenceManager, gsonConverter = gsonConverter, historyToDelete =  toDeleteHistory)
-        }
-    }
-
-    private fun validateToRestoreHistory() {
-        val rawJSONString = preferenceManager.loadString("restore_history")
-
-        if (rawJSONString.isNotEmpty()) {
-            val toRestoreHistory = gsonConverter.stringToJSON(rawJSONString) as ArrayList<History>
-
-            for (history in toRestoreHistory) {
-                historyArray.removeAll {
-                    it.historyName == history.historyName
-                }
-
-                val contact = Contact(contactName = history.historyName, contactMobileNumber = history.historyMobileNumber)
-                contactArray.add(contact)
-            }
-
-            saveContactToPreferenceManager(contactArray)
-            saveHistoryToPreferenceManager(historyArray)
-
-            toRestoreHistory.clear()
-            saveToPreference.restoreHistory(preferenceManager = preferenceManager, gsonConverter = gsonConverter, historyToRestore =  toRestoreHistory)
         }
     }
 
@@ -136,12 +88,6 @@ class ContactsFragment : BaseFragment(), ContactsView {
         loadHistory()
 
         validateHistory()
-    }
-
-    private fun initRecyclerViewFilter(adapter: ContactAdapter) {
-        svSearchContact.afterSearchViewTextChange {
-            adapter.filter.filter(it)
-        }
     }
 
     private fun initRecyclerView() {
@@ -164,6 +110,40 @@ class ContactsFragment : BaseFragment(), ContactsView {
 
             initRecyclerViewFilter(adapter = adapter as ContactAdapter)
         }
+    }
+
+    private fun initRecyclerViewFilter(adapter: ContactAdapter) {
+        svSearchContact.afterSearchViewTextChange {
+            adapter.filter.filter(it)
+        }
+    }
+
+    private fun validateToDeleteHistory() {
+        val rawJSONString = preferenceManager.loadString("delete_history")
+
+        contactsFragmentPresenter.validateToDeleteHistory(historyArray = historyArray, rawJSONString = rawJSONString)
+    }
+
+    private fun validateToRestoreHistory() {
+        val rawJSONString = preferenceManager.loadString("restore_history")
+
+        contactsFragmentPresenter.validateToRestoreHistory(historyArray, contactArray, rawJSONString)
+    }
+
+    override fun saveContactToPrefManager(contactArray: ArrayList<Contact>) {
+        saveContactToPreferenceManager(contactArray)
+    }
+
+    override fun saveHistoryToPrefManager(historyArray: ArrayList<History>) {
+        saveHistoryToPreferenceManager(historyArray)
+    }
+
+    override fun saveToHistoryToDelete(toDeleteHistory: ArrayList<History>) {
+        saveToPreference.deleteHistory(preferenceManager =  preferenceManager, gsonConverter = gsonConverter, historyToDelete =  toDeleteHistory)
+    }
+
+    override fun saveToHistoryToRestore(toRestoreHistory: ArrayList<History>) {
+        saveToPreference.restoreHistory(preferenceManager = preferenceManager, gsonConverter = gsonConverter, historyToRestore =  toRestoreHistory)
     }
 
     private fun createDialog(contact: Contact, position: Int) {
@@ -239,8 +219,6 @@ class ContactsFragment : BaseFragment(), ContactsView {
     private fun loadContact() {
         val rawJSONString = preferenceManager.loadString("contact")
 
-        Log.d(requireContext().toString(), "loadContact $rawJSONString")
-
         if (rawJSONString.isNotEmpty()) {
             val contactFromPreferenceManager = gsonConverter.stringToJSON(rawJSONString) as ArrayList<Contact>
 
@@ -305,8 +283,13 @@ class ContactsFragment : BaseFragment(), ContactsView {
         addToHistory(contact)
         saveContactToPreferenceManager(contactArray)
 
-        if (contactListCount == 0) {
-            validateContactView()
+        GlobalScope.launch(Dispatchers.Main) {
+
+            delay(500)
+
+            if (contactListCount == 0) {
+                validateContactView()
+            }
         }
     }
 
