@@ -20,5 +20,9 @@ interface ContactsFragmentPresenter {
 
     fun deleteContact(contact: Contact, index: Int, validateView: () -> Unit, rvContacts: RecyclerView)
 
-    fun deleteAllContacts()
+    fun deleteAllContacts(contactArray: ArrayList<Contact>, historyArray: ArrayList<History>)
+
+    fun updateContactList(index: Int, contact: Contact)
+
+    fun addToHistory(history: History)
 }

@@ -152,11 +152,7 @@ class ContactsFragment : BaseFragment(), ContactsFragmentView {
     override fun updateContactList(contact: Contact) {
         val index = editContactPosition
 
-        contactArray[index!!] = contact
-
-        saveContactToPreferenceManager(contactArray)
-
-        rvContacts?.adapter?.notifyItemRangeChanged(index, contactArray.size)
+        contactsFragmentPresenter.updateContactList(index = index!!, contact = contact)
     }
 
     override fun saveToContacts(name: String, mobileNumber: String) {
@@ -178,6 +174,31 @@ class ContactsFragment : BaseFragment(), ContactsFragmentView {
         contactArray.removeAt(index)
 
         return contactArray
+    }
+
+    override fun deleteAllContacts(historyArray: ArrayList<History>) {
+        contactArray.clear()
+
+        saveContactToPreferenceManager(contactArray)
+        saveHistoryToPreferenceManager(historyArray)
+
+        rvContacts?.adapter?.notifyDataSetChanged()
+
+        validateContactView()
+    }
+
+    override fun addToHistoryList2(history: History) {
+        historyArray.add(history)
+
+        saveHistoryToPreferenceManager(historyArray)
+    }
+
+    override fun updateContactList(index: Int, contact: Contact) {
+        contactArray[index] = contact
+
+        saveContactToPreferenceManager(contactArray)
+
+        rvContacts?.adapter?.notifyItemRangeChanged(index, contactArray.size)
     }
 
     private fun createDialog(contact: Contact, position: Int) {
@@ -281,29 +302,13 @@ class ContactsFragment : BaseFragment(), ContactsFragmentView {
     }
 
     private fun deleteAllContacts() {
-
-        for (contact in contactArray) {
-            val history = History(historyName = contact.contactName, historyMobileNumber = contact.contactMobileNumber)
-
-            historyArray.add(history)
-        }
-
-        contactArray.clear()
-
-        saveContactToPreferenceManager(contactArray)
-        saveHistoryToPreferenceManager(historyArray)
-
-        rvContacts?.adapter?.notifyDataSetChanged()
-
-        validateContactView()
+        contactsFragmentPresenter.deleteAllContacts(contactArray = contactArray, historyArray = historyArray)
     }
 
     private fun addToHistory(contact: Contact) {
         val history = History(historyName = contact.contactName, historyMobileNumber = contact.contactMobileNumber)
 
-        historyArray.add(history)
-
-        saveHistoryToPreferenceManager(historyArray)
+        contactsFragmentPresenter.addToHistory(history = history)
     }
 
     private fun validateContactView() {

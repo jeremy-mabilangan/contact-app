@@ -24,4 +24,10 @@ interface ContactsFragmentView {
     fun deleteContacts(contact: Contact, contactArray: ArrayList<Contact>)
 
     fun deleteOnContactArray(index: Int): ArrayList<Contact>
+
+    fun updateContactList(index: Int, contact: Contact)
+
+    fun deleteAllContacts(historyArray: ArrayList<History>)
+
+    fun addToHistoryList2(history: History)
 }

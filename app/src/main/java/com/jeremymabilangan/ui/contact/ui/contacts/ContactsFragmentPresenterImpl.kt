@@ -100,8 +100,25 @@ class ContactsFragmentPresenterImpl(private var contactsFragmentView: ContactsFr
         contactsFragmentView.deleteContacts(contact, contactArray)
     }
 
-    override fun deleteAllContacts() {
+    override fun deleteAllContacts(
+        contactArray: ArrayList<Contact>,
+        historyArray: ArrayList<History>
+    ) {
+        for (contact in contactArray) {
+            val history = History(historyName = contact.contactName, historyMobileNumber = contact.contactMobileNumber)
 
+            historyArray.add(history)
+        }
+
+        contactsFragmentView.deleteAllContacts(historyArray = historyArray)
+    }
+
+    override fun updateContactList(index: Int, contact: Contact) {
+        contactsFragmentView.updateContactList(index = index, contact = contact)
+    }
+
+    override fun addToHistory(history: History) {
+        contactsFragmentView.addToHistoryList2(history = history)
     }
 
 }
