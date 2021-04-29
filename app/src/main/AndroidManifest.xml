@@ -19,9 +19,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.history.HistoryActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.addcontact.AddContactActivity"
             android:screenOrientation="portrait" />
         <activity

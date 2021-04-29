@@ -24,10 +24,6 @@ import kotlinx.android.synthetic.main.activity_main.rvContacts
 import kotlinx.android.synthetic.main.activity_main.svSearchContact
 import kotlinx.android.synthetic.main.activity_main.tvNoContactFound
 import kotlinx.android.synthetic.main.fragment_contacts.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlin.collections.ArrayList
 
 @Suppress("DEPRECATION")
@@ -164,7 +160,24 @@ class ContactsFragment : BaseFragment(), ContactsFragmentView {
     }
 
     override fun saveToContacts(name: String, mobileNumber: String) {
-        saveContact(Contact(contactName = name, contactMobileNumber = mobileNumber))
+        contactArray.add(Contact(contactName = name, contactMobileNumber = mobileNumber))
+
+        saveContactToPreferenceManager(contactArray)
+
+        validateContactView()
+
+        rvContacts?.adapter?.notifyDataSetChanged()
+    }
+
+    override fun deleteContacts(contact: Contact, contactArray: ArrayList<Contact>) {
+        addToHistory(contact)
+        saveContactToPreferenceManager(contactArray)
+    }
+
+    override fun deleteOnContactArray(index: Int): ArrayList<Contact> {
+        contactArray.removeAt(index)
+
+        return contactArray
     }
 
     private fun createDialog(contact: Contact, position: Int) {
@@ -249,16 +262,6 @@ class ContactsFragment : BaseFragment(), ContactsFragmentView {
         contactsFragmentPresenter.loadHistory(rawJSONString)
     }
 
-    private fun saveContact(contact: Contact) {
-        contactArray.add(contact)
-
-        saveContactToPreferenceManager(contactArray)
-
-        validateContactView()
-
-        rvContacts?.adapter?.notifyDataSetChanged()
-    }
-
     private fun editContact(intent: Intent) {
         val name = intent.getStringExtra("name")
         val mobileNumber = intent.getStringExtra("mobilenumber")
@@ -274,30 +277,11 @@ class ContactsFragment : BaseFragment(), ContactsFragmentView {
     }
 
     private fun deleteContact(contact: Contact, index: Int) {
-        contactArray.removeAt(index)
-
-        var contactListCount = 0
-
-        rvContacts?.adapter?.apply {
-            notifyItemRemoved(index)
-            notifyItemRangeChanged(index, contactArray.size)
-            contactListCount = itemCount
-        }
-
-        addToHistory(contact)
-        saveContactToPreferenceManager(contactArray)
-
-        GlobalScope.launch(Dispatchers.Main) {
-
-            delay(500)
-
-            if (contactListCount == 0) {
-                validateContactView()
-            }
-        }
+        contactsFragmentPresenter.deleteContact(contact =  contact, index = index, validateView = { validateContactView() }, rvContacts = rvContacts)
     }
 
     private fun deleteAllContacts() {
+
         for (contact in contactArray) {
             val history = History(historyName = contact.contactName, historyMobileNumber = contact.contactMobileNumber)
 

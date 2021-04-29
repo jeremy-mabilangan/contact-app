@@ -1,8 +1,13 @@
 package com.jeremymabilangan.ui.contact.ui.contacts
 
+import androidx.recyclerview.widget.RecyclerView
 import com.jeremymabilangan.ui.contact.ui.contacts.dataclass.Contact
 import com.jeremymabilangan.ui.contact.ui.history.dataclass.History
 import com.jeremymabilangan.ui.contact.utils.GSONConverter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class ContactsFragmentPresenterImpl(private var contactsFragmentView: ContactsFragmentView,
                                     private var gsonConverter: GSONConverter
@@ -74,6 +79,29 @@ class ContactsFragmentPresenterImpl(private var contactsFragmentView: ContactsFr
         if (name != null && mobileNumber != null) {
             contactsFragmentView.saveToContacts(name = name, mobileNumber = mobileNumber)
         }
+    }
+
+    override fun deleteContact(contact: Contact, index: Int, validateView: () -> Unit, rvContacts: RecyclerView) {
+
+        val contactArray = contactsFragmentView.deleteOnContactArray(index = index)
+
+        rvContacts.adapter?.apply {
+            notifyItemRemoved(index)
+            notifyItemRangeChanged(index, contactArray.size)
+
+            GlobalScope.launch(Dispatchers.Main) {
+
+                delay(500)
+
+                if (itemCount == 0) validateView()
+            }
+        }
+
+        contactsFragmentView.deleteContacts(contact, contactArray)
+    }
+
+    override fun deleteAllContacts() {
+
     }
 
 }

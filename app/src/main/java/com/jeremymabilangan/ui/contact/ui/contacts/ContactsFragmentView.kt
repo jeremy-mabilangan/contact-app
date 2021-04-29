@@ -20,4 +20,8 @@ interface ContactsFragmentView {
     fun updateContactList(contact: Contact)
 
     fun saveToContacts(name: String, mobileNumber: String)
+
+    fun deleteContacts(contact: Contact, contactArray: ArrayList<Contact>)
+
+    fun deleteOnContactArray(index: Int): ArrayList<Contact>
 }
