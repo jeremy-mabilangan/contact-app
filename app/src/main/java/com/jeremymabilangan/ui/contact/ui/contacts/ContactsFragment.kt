@@ -24,10 +24,6 @@ import kotlinx.android.synthetic.main.activity_main.rvContacts
 import kotlinx.android.synthetic.main.activity_main.svSearchContact
 import kotlinx.android.synthetic.main.activity_main.tvNoContactFound
 import kotlinx.android.synthetic.main.fragment_contacts.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlin.collections.ArrayList
 
 @Suppress("DEPRECATION")

@@ -1,4 +1,4 @@
-package com.jeremymabilangan.ui.contact.ui.history2
+package com.jeremymabilangan.ui.contact.ui.history
 
 interface HistoryFragmentPresenter{
 

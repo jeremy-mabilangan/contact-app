@@ -1,13 +1,8 @@
 package com.jeremymabilangan.ui.contact.ui.contacts
 
-import androidx.recyclerview.widget.RecyclerView
 import com.jeremymabilangan.ui.contact.ui.contacts.dataclass.Contact
 import com.jeremymabilangan.ui.contact.ui.history.dataclass.History
 import com.jeremymabilangan.ui.contact.utils.GSONConverter
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class ContactsFragmentPresenterImpl(private var contactsFragmentView: ContactsFragmentView,
                                     private var gsonConverter: GSONConverter

@@ -1,4 +1,4 @@
-package com.jeremymabilangan.ui.contact.ui.history2
+package com.jeremymabilangan.ui.contact.ui.history
 
 import android.util.Log
 import android.view.View
@@ -15,10 +15,6 @@ import com.jeremymabilangan.ui.contact.utils.PreferenceManager
 import com.jeremymabilangan.ui.contact.utils.SaveToPreference
 import kotlinx.android.synthetic.main.activity_history.rvHistory
 import kotlinx.android.synthetic.main.fragment_history.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class HistoryFragment : BaseFragment(), HistoryFragmentView {
 

@@ -8,7 +8,7 @@ import com.jeremymabilangan.ui.contact.base.BaseFragment
 import com.jeremymabilangan.ui.contact.base.BaseFragment.Companion.newInstance
 import com.jeremymabilangan.ui.contact.extra.emptyString
 import com.jeremymabilangan.ui.contact.ui.contacts.ContactsFragment
-import com.jeremymabilangan.ui.contact.ui.history2.HistoryFragment
+import com.jeremymabilangan.ui.contact.ui.history.HistoryFragment
 import kotlinx.android.synthetic.main.activity_main2.*
 
 class MainActivity : BaseActivity() {

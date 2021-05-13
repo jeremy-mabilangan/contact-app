@@ -1,4 +1,4 @@
-package com.jeremymabilangan.ui.contact.ui.history.adapter
+package com.jeremymabilangan.ui.contact.ui.history2.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,9 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jeremymabilangan.ui.contact.R
-import com.jeremymabilangan.ui.contact.ui.contacts.dataclass.Contact
 import com.jeremymabilangan.ui.contact.ui.history.dataclass.History
-import kotlinx.android.synthetic.main.row_contact.view.*
 import kotlinx.android.synthetic.main.row_history.view.*
 
 
