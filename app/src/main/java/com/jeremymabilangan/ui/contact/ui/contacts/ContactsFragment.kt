@@ -18,11 +18,6 @@ import com.jeremymabilangan.ui.contact.ui.history.dataclass.History
 import com.jeremymabilangan.ui.contact.utils.GSONConverter
 import com.jeremymabilangan.ui.contact.utils.PreferenceManager
 import com.jeremymabilangan.ui.contact.utils.SaveToPreference
-import kotlinx.android.synthetic.main.activity_main.bAddContact
-import kotlinx.android.synthetic.main.activity_main.bDeleteAllContacts
-import kotlinx.android.synthetic.main.activity_main.rvContacts
-import kotlinx.android.synthetic.main.activity_main.svSearchContact
-import kotlinx.android.synthetic.main.activity_main.tvNoContactFound
 import kotlinx.android.synthetic.main.fragment_contacts.*
 import kotlin.collections.ArrayList
 

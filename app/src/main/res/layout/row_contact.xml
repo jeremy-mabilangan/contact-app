@@ -14,7 +14,7 @@
         android:id="@+id/ivContactImg"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="@dimen/margin_super_small_v2"
         android:background="@drawable/contact_img_bg"
         android:src="@drawable/ic_baseline_person_white_24"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -26,10 +26,10 @@
         android:id="@+id/tvContactName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="3dp"
-        android:textColor="#000"
-        android:textSize="18sp"
+        android:layout_marginStart="@dimen/margin_big"
+        android:layout_marginTop="@dimen/margin_super_small"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/text_size_normal"
         app:layout_constraintStart_toEndOf="@+id/ivContactImg"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,10 +37,10 @@
         android:id="@+id/tvContactMobileNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="4dp"
-        android:textColor="#000"
-        android:textSize="14sp"
+        android:layout_marginStart="@dimen/margin_big"
+        android:layout_marginTop="@dimen/margin_super_small_v4"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/text_size_small_v2"
         app:layout_constraintStart_toEndOf="@+id/ivContactImg"
         app:layout_constraintTop_toBottomOf="@+id/tvContactName" />
 

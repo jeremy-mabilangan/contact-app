@@ -14,9 +14,9 @@
         app:layout_constraintStart_toStartOf="parent"
         android:background="@drawable/border_bottom_shadow"
         app:layout_constraintTop_toTopOf="parent"
-        app:subtitleTextColor="#000"
+        app:subtitleTextColor="@color/colorBlack"
         app:title="History"
-        app:titleTextColor="#282828"/>
+        app:titleTextColor="@color/colorBlack200"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvHistory"
@@ -31,7 +31,7 @@
         android:id="@+id/ivIconNoHistoryFound"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:layout_marginTop="105dp"
+        android:layout_marginTop="@dimen/margin_big_v10"
         android:src="@drawable/ic_baseline_history_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,11 +42,11 @@
         android:id="@+id/tvNoHistoryFound"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="#1ab2ff"
+        android:backgroundTint="@color/colorPrimary"
         android:gravity="center"
         android:text="Your history is empty"
         android:textColor="@color/colorDarkGray"
-        android:textSize="16sp"
+        android:textSize="@dimen/text_size_small_v2"
         app:layout_constraintTop_toBottomOf="@+id/ivIconNoHistoryFound"
         tools:ignore="HardcodedText" />
 

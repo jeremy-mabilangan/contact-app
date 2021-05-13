@@ -9,14 +9,14 @@ import com.jeremymabilangan.ui.contact.base.BaseFragment.Companion.newInstance
 import com.jeremymabilangan.ui.contact.extra.emptyString
 import com.jeremymabilangan.ui.contact.ui.contacts.ContactsFragment
 import com.jeremymabilangan.ui.contact.ui.history.HistoryFragment
-import kotlinx.android.synthetic.main.activity_main2.*
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
 
     private var lastBackStackName = emptyString()
 
     override fun layoutId(): Int {
-        return R.layout.activity_main2
+        return R.layout.activity_main
     }
 
     override fun viewCreated() {

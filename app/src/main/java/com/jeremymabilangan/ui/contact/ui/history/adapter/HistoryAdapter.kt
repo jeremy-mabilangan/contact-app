@@ -1,4 +1,4 @@
-package com.jeremymabilangan.ui.contact.ui.history2.adapter
+package com.jeremymabilangan.ui.contact.ui.history.adapter
 
 import android.content.Context
 import android.view.LayoutInflater

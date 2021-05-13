@@ -13,7 +13,6 @@ import com.jeremymabilangan.ui.contact.ui.history.dataclass.History
 import com.jeremymabilangan.ui.contact.utils.GSONConverter
 import com.jeremymabilangan.ui.contact.utils.PreferenceManager
 import com.jeremymabilangan.ui.contact.utils.SaveToPreference
-import kotlinx.android.synthetic.main.activity_history.rvHistory
 import kotlinx.android.synthetic.main.fragment_history.*
 
 class HistoryFragment : BaseFragment(), HistoryFragmentView {
