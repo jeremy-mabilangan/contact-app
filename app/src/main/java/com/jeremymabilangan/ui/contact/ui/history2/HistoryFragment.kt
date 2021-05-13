@@ -20,7 +20,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class HistoryFragments : BaseFragment(), HistoryView {
+class HistoryFragment : BaseFragment(), HistoryFragmentView {
 
     private var historyArray = ArrayList<History>()
     private val historyToRestore = ArrayList<History>()
@@ -30,18 +30,15 @@ class HistoryFragments : BaseFragment(), HistoryView {
     private val saveToPreference = SaveToPreference()
 
     private lateinit var preferenceManager : PreferenceManager
-
-    override fun onResume() {
-        super.onResume()
-
-        Log.d(requireContext().toString(), "SECOND FRAGMENT")
-    }
+    private lateinit var historyFragmentPresenter: HistoryFragmentPresenter
 
     override fun layoutId(): Int {
         return R.layout.fragment_history
     }
 
     override fun viewCreated() {
+        historyFragmentPresenter = HistoryFragmentPresenterImpl(this, gsonConverter = gsonConverter)
+
         initRecyclerView()
         initPreferenceManager()
         loadHistory()
@@ -58,11 +55,11 @@ class HistoryFragments : BaseFragment(), HistoryView {
 
         Log.d(requireContext().toString(), "loadHistory => $rawJSONString")
 
-        if (rawJSONString.isNotEmpty()) {
-            val historyFromPreferenceManager = gsonConverter.stringToJSON(rawJSONString) as ArrayList<History>
+        historyFragmentPresenter.convertHistoryStringToObject(rawJSONString = rawJSONString)
+    }
 
-            historyArray.addAll(historyFromPreferenceManager)
-        }
+    override fun displayHistoryList(history: ArrayList<History>) {
+        historyArray.addAll(history)
     }
 
     private fun initRecyclerView() {
@@ -91,15 +88,15 @@ class HistoryFragments : BaseFragment(), HistoryView {
             message(text = "What do you want to this contact: " + history.historyName + "?")
             cancelOnTouchOutside
             positiveButton(text = "Restore") {
-                restoreHistory(position)
+                toRestoreHistory(position)
             }
             negativeButton(text = "Delete") {
-                deleteHistory(position)
+                toDeleteHistory(position)
             }
         }
     }
 
-    private fun deleteHistory(index: Int) {
+    private fun toDeleteHistory(index: Int) {
         historyToDelete.add(historyArray[index])
 
         historyArray.removeAt(index)
@@ -112,19 +109,14 @@ class HistoryFragments : BaseFragment(), HistoryView {
             historyCountList = itemCount
         }
 
-        GlobalScope.launch(Dispatchers.Main) {
+        historyFragmentPresenter.validateHistoryCount(count = historyCountList, validateHistoryView = { validateHistoryView() })
+    }
 
-            delay(500)
-
-            if (historyCountList == 0) {
-                validateHistoryView()
-            }
-        }
-
+    override fun deleteHistory() {
         saveToPreference.deleteHistory(preferenceManager = preferenceManager, gsonConverter = gsonConverter, historyToDelete =  historyToDelete)
     }
 
-    private fun restoreHistory(index: Int) {
+    private fun toRestoreHistory(index: Int) {
         historyToRestore.add(historyArray[index])
 
         historyArray.removeAt(index)
@@ -137,15 +129,11 @@ class HistoryFragments : BaseFragment(), HistoryView {
             historyCountList = itemCount
         }
 
-        GlobalScope.launch(Dispatchers.Main) {
+        historyFragmentPresenter.validateRestoreHistoryCount(count = historyCountList, validateHistoryView = { validateHistoryView() })
 
-            delay(500)
+    }
 
-            if (historyCountList == 0) {
-                validateHistoryView()
-            }
-        }
-
+    override fun restoreHistory() {
         saveToPreference.restoreHistory(preferenceManager = preferenceManager, gsonConverter = gsonConverter, historyToRestore = historyToRestore)
     }
 
@@ -161,4 +149,5 @@ class HistoryFragments : BaseFragment(), HistoryView {
             tvNoHistoryFound.visibility = View.GONE
         }
     }
+
 }

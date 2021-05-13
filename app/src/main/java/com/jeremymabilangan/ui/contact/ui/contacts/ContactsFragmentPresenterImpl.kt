@@ -81,21 +81,11 @@ class ContactsFragmentPresenterImpl(private var contactsFragmentView: ContactsFr
         }
     }
 
-    override fun deleteContact(contact: Contact, index: Int, validateView: () -> Unit, rvContacts: RecyclerView) {
+    override fun deleteContact(contact: Contact, index: Int, validateView: () -> Unit, count: Int) {
 
         val contactArray = contactsFragmentView.deleteOnContactArray(index = index)
 
-        rvContacts.adapter?.apply {
-            notifyItemRemoved(index)
-            notifyItemRangeChanged(index, contactArray.size)
-
-            GlobalScope.launch(Dispatchers.Main) {
-
-                delay(500)
-
-                if (itemCount == 0) validateView()
-            }
-        }
+        if (count == 0) validateView()
 
         contactsFragmentView.deleteContacts(contact, contactArray)
     }

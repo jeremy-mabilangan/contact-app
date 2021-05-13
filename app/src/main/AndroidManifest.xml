@@ -25,7 +25,7 @@
             android:name=".ui.contactdetails.ContactDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.history2.HistoryFragments"
+            android:name=".ui.history2.HistoryFragment"
             tools:ignore="Instantiatable" />
         <activity
             android:name=".ui.contacts.ContactsFragment"

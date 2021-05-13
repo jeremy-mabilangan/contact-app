@@ -1,6 +1,5 @@
 package com.jeremymabilangan.ui.contact.ui.contacts
 
-import androidx.recyclerview.widget.RecyclerView
 import com.jeremymabilangan.ui.contact.ui.contacts.dataclass.Contact
 import com.jeremymabilangan.ui.contact.ui.history.dataclass.History
 
@@ -18,7 +17,7 @@ interface ContactsFragmentPresenter {
 
     fun updateContact(name: String?, mobileNumber: String?)
 
-    fun deleteContact(contact: Contact, index: Int, validateView: () -> Unit, rvContacts: RecyclerView)
+    fun deleteContact(contact: Contact, index: Int, validateView: () -> Unit, count: Int)
 
     fun deleteAllContacts(contactArray: ArrayList<Contact>, historyArray: ArrayList<History>)
 
