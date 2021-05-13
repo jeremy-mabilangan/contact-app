@@ -1,6 +1,16 @@
 <resources>
     <string name="app_name">Contacts</string>
 
-    <dimen name="design_fab_size_mini">40dp</dimen>
-    <dimen name="design_fab_size_normal">56dp</dimen>
+    <string name="add_contact_name">Enter Contact Name</string>
+    <string name="add_contact_number">Enter Mobile Number Ex: 09123456789</string>
+    <string name="add_contact_save">Save</string>
+
+    <string name="contact_details_example">Example</string>
+
+    <string name="contacts_toolbar_title">Contacts</string>
+    <string name="contacts_sv_hint">Search Contact</string>
+    <string name="contacts_empty_contact">You don\'t have any contacts yet</string>
+
+    <string name="history_toolbar_title">History</string>
+    <string name="history_empty_history">Your history is empty</string>
 </resources>

@@ -28,7 +28,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_big"
         android:layout_marginTop="@dimen/margin_super_small_v3"
-        android:text="Name"
         android:textColor="@color/colorBlack"
         android:textSize="@dimen/text_size_normal"
         app:layout_constraintStart_toEndOf="@+id/ivHistoryImg"
@@ -40,11 +39,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_big"
         android:layout_marginTop="@dimen/margin_super_small_v4"
-        android:text="Mobile Number"
         android:textColor="@color/colorBlack"
         android:textSize="@dimen/text_size_small_v2"
         app:layout_constraintStart_toEndOf="@+id/ivHistoryImg"
-        app:layout_constraintTop_toBottomOf="@+id/tvHistoryName"
-        tools:ignore="HardcodedText" />
+        app:layout_constraintTop_toBottomOf="@+id/tvHistoryName" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

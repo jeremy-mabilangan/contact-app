@@ -15,7 +15,7 @@
         android:background="@drawable/border_bottom_shadow"
         app:layout_constraintTop_toTopOf="parent"
         app:subtitleTextColor="@color/colorBlack"
-        app:title="History"
+        app:title="@string/history_toolbar_title"
         app:titleTextColor="@color/colorBlack200"/>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -44,10 +44,9 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorPrimary"
         android:gravity="center"
-        android:text="Your history is empty"
+        android:text="@string/history_empty_history"
         android:textColor="@color/colorDarkGray"
         android:textSize="@dimen/text_size_small_v2"
-        app:layout_constraintTop_toBottomOf="@+id/ivIconNoHistoryFound"
-        tools:ignore="HardcodedText" />
+        app:layout_constraintTop_toBottomOf="@+id/ivIconNoHistoryFound" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

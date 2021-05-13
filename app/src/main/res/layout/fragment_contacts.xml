@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:subtitleTextColor="@color/colorBlack100"
-        app:title="Contact"
+        app:title="@string/contacts_toolbar_title"
         app:titleTextColor="@color/colorBlack100" />
 
     <Button
@@ -48,7 +48,7 @@
         android:textCursorDrawable="@null"
         android:background="@drawable/searchview_shape_bg"
         android:layout_margin="@dimen/margin_normal"
-        app:queryHint="Search Contact"
+        app:queryHint="@string/contacts_sv_hint"
         app:iconifiedByDefault="false"
         app:queryBackground="@null"
         app:layout_constraintEnd_toEndOf="parent"
@@ -72,11 +72,10 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorPrimary"
         android:gravity="center"
-        android:text="You don't have any contacts yet"
+        android:text="@string/contacts_empty_contact"
         android:textColor="@color/colorDarkGray"
         android:textSize="@dimen/text_size_small_v2"
-        app:layout_constraintTop_toBottomOf="@+id/ivIconNoContactFound"
-        tools:ignore="HardcodedText" />
+        app:layout_constraintTop_toBottomOf="@+id/ivIconNoContactFound" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/bAddContact"
