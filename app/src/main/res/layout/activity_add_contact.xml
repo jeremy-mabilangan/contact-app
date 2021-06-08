@@ -4,15 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp"
+    android:layout_margin="@dimen/margin_normal"
     tools:context=".ui.addcontact.AddContactActivity">
 
     <Button
         android:id="@+id/bAddContactBack"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
         android:background="@drawable/ic_baseline_arrow_back_black_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -21,7 +19,7 @@
         android:id="@+id/ivContactName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="95dp"
+        android:layout_marginTop="@dimen/margin_big_v9"
         android:background="@drawable/baseline_person_24"
         app:layout_constraintEnd_toStartOf="@+id/textInputName"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,15 +30,14 @@
         android:id="@+id/textInputName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="70dp"
-        android:hint="Enter Contact Name"
-        android:textColor="#000"
+        android:layout_marginStart="@dimen/margin_big_v2"
+        android:layout_marginTop="@dimen/margin_big_v6"
+        android:hint="@string/add_contact_name"
+        android:textColor="@color/colorWhite"
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="HardcodedText">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etContactName"
@@ -54,7 +51,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="@dimen/margin_big_v5"
         android:background="@drawable/baseline_phone_24"
         app:layout_constraintEnd_toStartOf="@+id/textInputNumber"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,16 +62,15 @@
         android:id="@+id/textInputNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="10dp"
-        android:hint="Enter Mobile Number Ex: 09123456789"
-        android:textColor="#000"
+        android:layout_marginStart="@dimen/margin_big_v2"
+        android:layout_marginTop="@dimen/margin_small"
+        android:hint="@string/add_contact_number"
+        android:textColor="@color/colorWhite"
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputName"
-        tools:ignore="HardcodedText">
+        app:layout_constraintTop_toBottomOf="@+id/textInputName">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etContactNumber"
@@ -88,14 +84,13 @@
     <Button
         android:id="@+id/bSaveContact"
         android:layout_width="wrap_content"
+        android:background="?selectableItemBackground"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/transparent"
+        android:layout_marginTop="@dimen/margin_small"
         android:outlineProvider="none"
-        android:text="Save"
-        android:textColor="#000"
+        android:text="@string/add_contact_save"
+        android:textColor="@color/colorBlack"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputNumber"
-        tools:ignore="HardcodedText" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputNumber" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

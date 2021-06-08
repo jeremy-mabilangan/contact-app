@@ -1,4 +1,4 @@
-package com.jeremymabilangan.ui.contact.ui.main.adapter
+package com.jeremymabilangan.ui.contact.ui.contacts.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -10,21 +10,20 @@ import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.jeremymabilangan.ui.contact.R
-import com.jeremymabilangan.ui.contact.ui.main.dataclass.Contact
-import kotlinx.android.synthetic.main.contact_list.view.*
+import com.jeremymabilangan.ui.contact.ui.contacts.dataclass.Contact
+import kotlinx.android.synthetic.main.row_contact.view.*
 import java.util.*
+
 
 @Suppress("NAME_SHADOWING")
 class ContactAdapter(private var context: Context, private val contacts: List<Contact>,
-                     private val onSelectContact: (Contact) -> Unit,
-                     private val onDeleteContact: (Contact, Int) -> Unit,
-                     private val onGoToEditContact: (Contact, Int) -> Unit
+                     private var onOptionDialog : (contact: Contact, position: Int) -> Unit
 ): RecyclerView.Adapter<ContactAdapter.ContactViewHolder>(), Filterable {
 
     private var contactFilterList = contacts
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
-        val itemView = LayoutInflater.from(context).inflate(R.layout.contact_list,
+        val itemView = LayoutInflater.from(context).inflate(R.layout.row_contact,
             parent, false)
 
         return ContactViewHolder(itemView)
@@ -37,16 +36,8 @@ class ContactAdapter(private var context: Context, private val contacts: List<Co
 
         holder.displayInformation(contact)
 
-        holder.selectContact(contact) {
-            onSelectContact(it)
-        }
-
-        holder.deleteContact(contact, position) { contact: Contact, position: Int ->
-            onDeleteContact(contact, position)
-        }
-
-        holder.goToEditContact(contact, position) { contact: Contact, position: Int ->
-            onGoToEditContact(contact, position)
+        holder.selectContact {
+            onOptionDialog(contact, position)
         }
     }
 
@@ -60,21 +51,9 @@ class ContactAdapter(private var context: Context, private val contacts: List<Co
             itemView.tvContactMobileNumber.text = contact.contactMobileNumber
         }
 
-        fun selectContact(contact: Contact, onSelectContact: (Contact) -> Unit) {
-            itemView.setOnClickListener {
-                onSelectContact(contact)
-            }
-        }
-
-        fun deleteContact(contact: Contact, position: Int, onDeleteContact: (Contact, Int) -> Unit) {
-            itemView.bDeleteContact.setOnClickListener {
-                onDeleteContact(contact, position)
-            }
-        }
-
-        fun goToEditContact(contact: Contact, position: Int, onGoToEditContact: (Contact, Int) -> Unit) {
-            itemView.bEditContact.setOnClickListener {
-                onGoToEditContact(contact, position)
+        fun selectContact(onSelected: () -> Unit) {
+            itemView.containerContact.setOnClickListener {
+                onSelected()
             }
         }
     }

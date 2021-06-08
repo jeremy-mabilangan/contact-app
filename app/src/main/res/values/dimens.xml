@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <dimen name="text_size_small">12sp</dimen>
+    <dimen name="text_size_small_v2">15sp</dimen>
+    <dimen name="text_size_normal">18sp</dimen>
+    <dimen name="text_size_normal_v2">21sp</dimen>
+    <dimen name="text_size_big">24sp</dimen>
+    <dimen name="text_size_big_v2">27sp</dimen>
+
+    <dimen name="margin_super_small">1dp</dimen>
+    <dimen name="margin_super_small_v2">2dp</dimen>
+    <dimen name="margin_super_small_v3">3dp</dimen>
+    <dimen name="margin_super_small_v4">4dp</dimen>
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_normal">16dp</dimen>
+    <dimen name="margin_big">24dp</dimen>
+
+    <dimen name="margin_big_v1">32dp</dimen>
+    <dimen name="margin_big_v1.1">36dp</dimen>
+    <dimen name="margin_big_v2">40dp</dimen>
+    <dimen name="margin_big_v3">48dp</dimen>
+    <dimen name="margin_big_v4">56dp</dimen>
+
+    <dimen name="margin_big_v5">64dp</dimen>
+    <dimen name="margin_big_v6">72dp</dimen>
+    <dimen name="margin_big_v7">80dp</dimen>
+
+    <dimen name="margin_big_v8">88dp</dimen>
+    <dimen name="margin_big_v9">96dp</dimen>
+
+    <dimen name="margin_big_v10">104dp</dimen>
+    <dimen name="margin_big_v11">112dp</dimen>
+    <dimen name="margin_big_v11.1">112dp</dimen>
+</resources>

@@ -1,4 +1,4 @@
-package com.jeremymabilangan.ui.contact.ui.main.dataclass
+package com.jeremymabilangan.ui.contact.ui.contacts.dataclass
 
 data class Contact(
 

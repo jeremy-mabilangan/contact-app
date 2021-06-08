@@ -1,17 +1,16 @@
 package com.jeremymabilangan.ui.contact.ui.contactdetails
 
 import android.content.Intent
-import android.net.Uri
-import android.provider.Telephony
 import com.jeremymabilangan.ui.contact.R
 import com.jeremymabilangan.ui.contact.base.BaseActivity
 import com.jeremymabilangan.ui.contact.extra.emptyString
-import com.jeremymabilangan.ui.contact.ui.main.dataclass.Contact
+import com.jeremymabilangan.ui.contact.ui.contacts.dataclass.Contact
 import com.jeremymabilangan.ui.contact.utils.GSONConverter
 import kotlinx.android.synthetic.main.activity_contact_details.*
 
-class ContactDetailsActivity : BaseActivity() {
+class ContactDetailsActivity : BaseActivity(), ContactDetailsView {
 
+    private lateinit var contactDetailsPresenter: ContactDetailsPresenter
     private val gsonConverter = GSONConverter()
 
     private var mobileNumber: String = emptyString()
@@ -21,6 +20,8 @@ class ContactDetailsActivity : BaseActivity() {
     }
 
     override fun viewCreated() {
+        contactDetailsPresenter = ContactDetailsPresenterImpl(this, gsonConverter)
+
         listenToEvents()
         validateIntent()
     }
@@ -49,12 +50,20 @@ class ContactDetailsActivity : BaseActivity() {
         val contact: String ? = intent.getStringExtra("contact")
 
         contact?.let {
-            val contactFromObject = gsonConverter.stringToObject(it) as Contact
-            populateDetails(contactFromObject)
+            contactDetailsPresenter.validateIntent(it)
         }
     }
 
-    private fun populateDetails(contact: Contact) {
+    private fun callContact(mobileNumber: String) {
+        contactDetailsPresenter.callContact(mobileNumber)
+    }
+
+    private fun messageContact(mobileNumber: String) {
+        contactDetailsPresenter.messageContact(mobileNumber, this)
+
+    }
+
+    override fun displayContactDetails(contact: Contact) {
         contact.apply {
             tvContactDetailsName.text = contactName
             tvContactDetailsMobileNumber.text = contactMobileNumber
@@ -62,20 +71,11 @@ class ContactDetailsActivity : BaseActivity() {
         }
     }
 
-    private fun callContact(mobileNumber: String) {
-        val dialIntent = Intent(Intent.ACTION_DIAL)
-        dialIntent.data = Uri.parse("tel:$mobileNumber")
-        startActivity(dialIntent)
+    override fun dialIntent(uri: Intent) {
+        startActivity(uri)
     }
 
-    private fun messageContact(mobileNumber: String) {
-        val uri= Uri.parse(java.lang.String.format("smsto:%s", mobileNumber))
-
-        val smsIntent = Intent(Intent.ACTION_SENDTO, uri)
-
-        smsIntent.putExtra("sms_body", "")
-        smsIntent.setPackage(Telephony.Sms.getDefaultSmsPackage(this))
-
-        startActivity(smsIntent)
+    override fun messageIntent(uri: Intent) {
+        startActivity(uri)
     }
 }

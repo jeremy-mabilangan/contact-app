@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.history.HistoryFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbHistory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/border_bottom_shadow"
+        app:layout_constraintTop_toTopOf="parent"
+        app:subtitleTextColor="@color/colorBlack"
+        app:title="@string/history_toolbar_title"
+        app:titleTextColor="@color/colorBlack200"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvHistory"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/margin_big_v4"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/tbHistory"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <ImageView
+        android:id="@+id/ivIconNoHistoryFound"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="@dimen/margin_big_v10"
+        android:src="@drawable/ic_baseline_history_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tbHistory"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/tvNoHistoryFound"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimary"
+        android:gravity="center"
+        android:text="@string/history_empty_history"
+        android:textColor="@color/colorDarkGray"
+        android:textSize="@dimen/text_size_small_v2"
+        app:layout_constraintTop_toBottomOf="@+id/ivIconNoHistoryFound" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

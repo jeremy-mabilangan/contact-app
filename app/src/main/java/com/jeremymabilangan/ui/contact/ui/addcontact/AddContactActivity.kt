@@ -1,38 +1,33 @@
 package com.jeremymabilangan.ui.contact.ui.addcontact
 
 import android.app.Activity
-import android.text.TextUtils
+import android.content.Intent
 import android.util.Log
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import com.jeremymabilangan.ui.contact.R
 import com.jeremymabilangan.ui.contact.base.BaseActivity
 import com.jeremymabilangan.ui.contact.extra.afterTextChanged
-import com.jeremymabilangan.ui.contact.extra.emptyString
 import com.jeremymabilangan.ui.contact.extra.readText
-import com.jeremymabilangan.ui.contact.ui.history.dataclass.History
-import com.jeremymabilangan.ui.contact.ui.main.ContactActivity
-import com.jeremymabilangan.ui.contact.ui.main.dataclass.Contact
 import com.jeremymabilangan.ui.contact.utils.GSONConverter
 import com.jeremymabilangan.ui.contact.utils.PreferenceManager
 import kotlinx.android.synthetic.main.activity_add_contact.*
-import org.jetbrains.anko.intentFor
 
 @Suppress("DEPRECATED_IDENTITY_EQUALS")
-class AddContactActivity : BaseActivity() {
+class AddContactActivity : BaseActivity(), AddContactView {
 
-    private var nameToEdit: String = emptyString()
-    private var mobileNumberToEdit: String = emptyString()
+    private lateinit var addContactPresenter: AddContactPresenter
+    private lateinit var preferenceManager : PreferenceManager
 
     private val gsonConverter = GSONConverter()
-
-    private lateinit var preferenceManager : PreferenceManager
 
     override fun layoutId(): Int {
         return R.layout.activity_add_contact
     }
 
     override fun viewCreated() {
+        addContactPresenter = AddContactPresenterImpl(this, gsonConverter)
+
         listenToEvents()
         initPreferenceManager()
         validateIntent()
@@ -52,17 +47,7 @@ class AddContactActivity : BaseActivity() {
         val name: String ? = intent.getStringExtra("name")
         val mobileNumber: String ? = intent.getStringExtra("mobilenumber")
 
-        if (name != null && mobileNumber != null) {
-            Log.d("AddContactActivity", "EDIT CONTACT")
-
-            nameToEdit = name
-            mobileNumberToEdit = mobileNumber
-
-            etContactName.setText(name)
-            etContactNumber.setText(mobileNumber)
-        } else {
-            Log.d("AddContactActivity", "ADD CONTACT")
-        }
+        addContactPresenter.validateIntent(name, mobileNumber)
     }
 
     private fun listenToEvents() {
@@ -88,94 +73,26 @@ class AddContactActivity : BaseActivity() {
         // tieName is TextView
 
         etContactName.afterTextChanged {
-            val result = validateName(it)
-            etContactName.error = result
+            validateName(it)
         }
 
         etContactNumber.afterTextChanged {
-            val result = validateNumber(it)
-            etContactNumber.error = result
+            validateNumber(it)
         }
     }
 
-    private fun validateName(name: String): String? {
-        var result: String? = null
-
+    private fun validateName(name: String) {
         val rawContactString = preferenceManager.loadString("contact")
         val rawHistoryString = preferenceManager.loadString("history")
 
-        if (name.isEmpty()) {
-            result = "Name should not be empty"
-        } else {
-            if (nameToEdit.isNotEmpty()) {
-                if (nameToEdit == name) {
-                    return "No changes"
-                }
-            }
-
-            if (rawContactString.isNotEmpty()) {
-                val contactFromPreferenceManager = gsonConverter.stringToJSON(rawContactString) as ArrayList<Contact>
-
-                for (contact in contactFromPreferenceManager) {
-                    if (contact.contactName == name) {
-                        return "Name already exist"
-                    }
-                }
-            }
-
-            if(rawHistoryString.isNotEmpty()) {
-                val historyFormPreferenceManager = gsonConverter.stringToJSON(rawHistoryString) as ArrayList<History>
-
-                for (history in historyFormPreferenceManager) {
-                    if (history.historyName == name) {
-                        return "Name already exist in history"
-                    }
-                }
-            }
-        }
-
-        return result
+        addContactPresenter.validateName(name, rawContactString, rawHistoryString)
     }
 
-    private fun validateNumber(mobileNumber: String): String? {
-        var result: String? = null
-
+    private fun validateNumber(mobileNumber: String) {
         val rawContactString = preferenceManager.loadString("contact")
         val rawHistoryString = preferenceManager.loadString("history")
 
-        if (mobileNumber.isEmpty()) {
-            result = "Mobile number should not be empty"
-        } else if (mobileNumber.length != 11 || mobileNumber.substring(0, 2) != "09" || !TextUtils.isDigitsOnly(mobileNumber)) {
-            result = "Invalid mobile number"
-        } else {
-            if (mobileNumberToEdit.isNotEmpty()) {
-                if (mobileNumberToEdit == mobileNumber) {
-                    return "No changes"
-                }
-            }
-
-            if (rawContactString.isNotEmpty()) {
-                val contactFromPreferenceManager = gsonConverter.stringToJSON(rawContactString) as ArrayList<Contact>
-
-                for (contact in contactFromPreferenceManager) {
-                    if (contact.contactMobileNumber == mobileNumber) {
-                        return "Mobile number already exist"
-                    }
-                }
-            }
-
-            if(rawHistoryString.isNotEmpty()) {
-                val historyFormPreferenceManager = gsonConverter.stringToJSON(rawHistoryString) as ArrayList<History>
-
-                for (history in historyFormPreferenceManager) {
-                    if (history.historyMobileNumber == mobileNumber) {
-                        return "Mobile number already exist in history"
-                    }
-                }
-            }
-        }
-
-        return result
+        addContactPresenter.validateMobileNumber(mobileNumber, rawContactString, rawHistoryString)
     }
 
     private fun validateValue() {
@@ -185,8 +102,8 @@ class AddContactActivity : BaseActivity() {
         Log.d("AddContactActivity", "name === $name")
         Log.d("AddContactActivity", "mobileNum === $mobileNumber")
 
-        etContactName.error = validateName(name)
-        etContactNumber.error = validateNumber(mobileNumber)
+        validateName(name)
+        validateNumber(mobileNumber)
 
         etContactName.error?.let {
             return
@@ -200,10 +117,25 @@ class AddContactActivity : BaseActivity() {
     }
 
     private fun goToContacts(name: String, mobileNumber: String) {
-        setResult(Activity.RESULT_OK,
-            intentFor<ContactActivity>("name" to name, "mobilenumber" to mobileNumber)
-        )
+        val intent = Intent()
+        intent.putExtra("name", name)
+        intent.putExtra("mobilenumber", mobileNumber)
+
+        setResult(Activity.RESULT_OK, intent)
 
         finish()
+    }
+
+    override fun displayValidatedContactToEdit(name: String, mobileNumber: String) {
+        etContactName.setText(name)
+        etContactNumber.setText(mobileNumber)
+    }
+
+    override fun displayContactNameError(error: String) {
+        etContactName.error = error
+    }
+
+    override fun displayContactNumberError(error: String) {
+        etContactNumber.error = error
     }
 }

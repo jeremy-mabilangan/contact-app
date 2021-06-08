@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.contacts.ContactsFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbContact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_bottom_shadow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:subtitleTextColor="@color/colorBlack100"
+        app:title="@string/contacts_toolbar_title"
+        app:titleTextColor="@color/colorBlack100" />
+
+    <Button
+        android:id="@+id/bDeleteAllContacts"
+        android:layout_width="37dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:visibility="gone"
+        android:background="@drawable/ic_baseline_delete_outline_24"
+        app:layout_constraintBottom_toBottomOf="@+id/tbContact"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tbContact" />
+
+    <Button
+        android:id="@+id/bContactsHistory"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:visibility="gone"
+        android:background="@drawable/ic_baseline_history_24"
+        app:layout_constraintEnd_toStartOf="@+id/bDeleteAllContacts"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/svSearchContact"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textCursorDrawable="@null"
+        android:background="@drawable/searchview_shape_bg"
+        android:layout_margin="@dimen/margin_normal"
+        app:queryHint="@string/contacts_sv_hint"
+        app:iconifiedByDefault="false"
+        app:queryBackground="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tbContact" />
+
+    <ImageView
+        android:id="@+id/ivIconNoContactFound"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="@dimen/margin_big_v10"
+        android:src="@drawable/ic_baseline_person_no_contact_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/svSearchContact"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/tvNoContactFound"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimary"
+        android:gravity="center"
+        android:text="@string/contacts_empty_contact"
+        android:textColor="@color/colorDarkGray"
+        android:textSize="@dimen/text_size_small_v2"
+        app:layout_constraintTop_toBottomOf="@+id/ivIconNoContactFound" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/bAddContact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_normal"
+        android:layout_marginEnd="@dimen/margin_normal"
+        android:layout_marginBottom="@dimen/margin_normal"
+        android:src="@drawable/ic_baseline_add_24"
+        app:backgroundTint="@color/colorPrimary"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:maxImageSize="24dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvContacts"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/margin_big_v11"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tbContact"
+        app:layout_constraintVertical_bias="0.964" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

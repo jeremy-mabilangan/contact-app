@@ -8,6 +8,7 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 
 abstract class BaseActivity : AppCompatActivity(), ConstructView {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -16,6 +17,9 @@ abstract class BaseActivity : AppCompatActivity(), ConstructView {
             viewCreated()
         }
     }
+
+    // onCreateView -> creating of fragment UI view -> layoutId()
+    // onViewCreated -> fragment UI view is created -> viewCreated()
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         clearFocusOnOutsideClick()
